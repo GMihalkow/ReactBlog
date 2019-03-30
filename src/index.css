@@ -1,0 +1,206 @@
+body {
+margin: 0;
+padding: 0;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+#mainHeading{
+  cursor: pointer;
+}
+
+.bold{
+font-weight: bold;
+}
+
+#main{
+height: -webkit-fill-available;
+}
+
+a{
+text-decoration: none;
+}
+
+.overflow-auto{
+  overflow: auto;
+}
+
+.m-0{
+margin:0px;
+}
+
+.m-10{
+margin:10px;
+}
+
+.bg-nav{
+background-color: #1f3d7a;
+}
+
+.text-black{
+  color: black;
+  }
+
+.text-white{
+color: white;
+}
+
+.text-center{
+text-align: center;
+}
+
+.banner{
+color:white;
+font-size: 30px;
+}
+
+.bg-banner{
+background-color: #0099cc;
+}
+
+.font-20{
+font-size: 20px;
+}
+
+.font-40{
+  font-size: 40px;
+}
+
+.p-20{
+padding:20px;
+}
+
+.p-10{
+padding:10px;
+}
+
+.nav{
+text-decoration: none;
+color:white;
+list-style: none;
+font-size: 25px;
+padding: 10px 5%;
+}
+
+.float-left{
+float: left;
+}
+
+.float-right{
+  float: right;
+}
+
+.display-inline{
+display: inline;
+}
+
+code {
+font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+.w-70{
+  width: 70%;
+}
+
+.article-image:hover{
+  filter: contrast(50%);
+  filter: opacity(70%);
+  cursor: pointer;
+}
+
+.w-30{
+  width: 30%;
+}
+
+.w-50{
+  width: 50%;
+}
+
+.w-80{
+  width: 80%;
+}
+
+.w-100{
+  width:100%;
+}
+
+.articleText{
+border: #0099cc solid 1px;
+height: 300px;
+/* border-radius: 5px; */
+outline: none;
+font-size: 20px;
+}
+
+.mx-auto{
+margin: 0px auto;
+}
+
+.blogBtn{
+  outline: none;
+  padding: 20px;
+  border-radius: 10px;
+  border:none;
+  font-size: 20px;
+  font-weight: bold;
+} 
+
+.border-none{
+  border:none;
+}
+
+.br-5{
+  border-radius: 5px;
+}
+
+.outline-none{
+  outline: none;
+}
+
+#fontSizeSelect{
+  border-radius: 5px;
+  outline: none;
+}
+
+
+#fontSizeSelect::-ms-expand { 
+  background: black;
+  display: none; /* hide the default arrow in ie10 and ie11 */
+}
+
+
+.three-to-one-grid{
+  display:grid;
+  grid-template-columns: 6fr 2fr;
+}
+
+.two-to-four-grid{
+  display:grid;
+  grid-template-columns: 2fr 4fr;
+}
+
+.text-start{
+  text-align: start;
+}
+
+.mx-10-auto{
+  margin: 10px auto;
+}
+
+.mt-25{
+  margin-top:25px;
+}
+
+.text-end{
+  text-align: end;
+}
+
+.font-14{
+  font-size: 14px;
+}
