@@ -21,13 +21,21 @@ library.add(faUndo);
 
 class App extends Component {
   state = {
-    posts: []
+    posts: [],
+    articles: []
+  }
+
+  getArticles = () => {
+    axios.get("https://blog-583ce.firebaseio.com/Articles.json")
+      .then((d) => {
+        this.setState({articles: [...Object.keys(d.data).map((key) => d.data[key])]});
+      });
   }
 
   test = () => {
     axios.get("https://testapp-3b30c.firebaseio.com/messenger.json")
       .then((d) => {
-        this.setState({posts: [...Object.keys(d.data)]})
+        this.setState({posts: [...Object.keys(d.data)]});
       });
   }
 
@@ -37,8 +45,8 @@ class App extends Component {
         <div className="App">
             <Banner/>
             <Nav/>
-            <RouterComponent posts={this.state.posts} test={this.test}/>
-            <Footer/>
+            <RouterComponent articles={this.state.articles} getArticles={this.getArticles} posts={this.state.posts} test={this.test}/>
+            {/* <Footer/> */}
         </div>
       </Router>
     );
