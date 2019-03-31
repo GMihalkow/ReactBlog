@@ -8,16 +8,8 @@ import axios from 'axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen  } from '@fortawesome/free-solid-svg-icons';
-import { faBold  } from '@fortawesome/free-solid-svg-icons';
-import { faAlignCenter  } from '@fortawesome/free-solid-svg-icons';
-import { faItalic  } from '@fortawesome/free-solid-svg-icons';
-import { faUndo  } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faBookOpen);
-library.add(faBold);
-library.add(faAlignCenter);
-library.add(faItalic);
-library.add(faUndo);
 
 class App extends Component {
   state = {

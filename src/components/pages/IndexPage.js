@@ -11,17 +11,17 @@ export class IndexPage extends Component {
     return (
         <div id="main" className="three-to-one-grid w-70 mx-auto">
           <div>
-            {this.props.articles.map((el, index) =>{
+            {this.props.articles.slice(0, 3).map((el, index) =>{
               if(index % 2 === 0){
 
                 return (
                 <Animated animationIn="fadeInLeft" isVisible={true}>
-                  <Article Title={el.Title} Date={el.Date} Content={el.Content} />
+                  <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
               } else {
                 return (
                 <Animated animationIn="fadeInRight" isVisible={true}>
-                  <Article Title={el.Title} Date={el.Date} Content={el.Content} />
+                  <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
               }
             })}
@@ -31,10 +31,9 @@ export class IndexPage extends Component {
             <Animated animationInDelay="1000" animationIn="fadeInRight" isVisible={true}>
             <div className="mt-25">
               <h2 className="bg-nav w-70 text-white mx-auto p-10">Популярни статии</h2> 
-              <LittelArticle/>
-              <LittelArticle/>
-              <LittelArticle/>
-              <LittelArticle/> 
+              {this.props.articles.slice(0, 3).map((el, index) =>{
+                return <LittelArticle Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+              })}
             </div>
           </Animated>
           </div>
