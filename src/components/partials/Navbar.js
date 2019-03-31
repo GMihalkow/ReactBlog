@@ -10,7 +10,7 @@ export class Navbar extends Component {
                 <ul className="m-0 nav">
                     <li className="display-inline m-10"><a className="text-white bold" href="/">Начало</a></li>
                     <li className="display-inline m-10"><Link className="text-white bold" to="/articles">Статии</Link></li>
-                    <li className="display-inline m-10"><Link className="text-white bold" to="/posts">За мен</Link></li>
+                    <li className="display-inline m-10"><Link className="text-white bold" to="/about">За мен</Link></li>
                 </ul>
             </Animated>
         </div>

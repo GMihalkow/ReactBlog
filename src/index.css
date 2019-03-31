@@ -184,6 +184,9 @@ margin: 0px auto;
   display: none; /* hide the default arrow in ie10 and ie11 */
 }
 
+.ml-5{
+  margin-left: 5%;
+}
 
 .three-to-one-grid{
   display:grid;

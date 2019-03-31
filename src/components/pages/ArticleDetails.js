@@ -13,12 +13,12 @@ export class ArticleDetails extends Component {
 
     render() {
         axios.get("https://blog-583ce.firebaseio.com/Articles/" + this.props.match.params.id + ".json")
-            .then((data) => {
-                this.setState({ article: data.data });
-            })
-            .catch((error) => {
-
-            });
+        .then((data) => {
+            this.setState({ article: data.data });
+        })
+        .catch((error) => {
+            
+        });
 
         return (
             <div className="text-center mx-10-auto p-10 w-70">
@@ -38,20 +38,17 @@ export class ArticleDetails extends Component {
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay="1000">
                     <hr />
-                    <div className="text-start w-70 mx-auto">
-                        {/* <div className="display-inline">
-                            <FacebookShareButton url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
-                        </div> */}
-                            <FacebookShareCount url="https://www.facebook.com">
-                                {shareCount => (    
-                                    <React.Fragment>
-                                       <center>
-                                            <FacebookShareButton url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
-                                            <p>{shareCount}</p>
-                                        </center>
-                                    </React.Fragment>
-                                )}
-                            </FacebookShareCount>
+                    <div className="text-start w-30 mx-auto">
+                        <FacebookShareCount url="https://www.facebook.com">
+                            {shareCount => (    
+                                <React.Fragment >
+                                    <center>
+                                        <FacebookShareButton width="20px"  url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
+                                        <p>{shareCount}</p>
+                                    </center>
+                                </React.Fragment>
+                            )}
+                        </FacebookShareCount>
                     </div>
                 </Animated>
             </div>
