@@ -37,7 +37,7 @@ export class ArticleDetails extends Component {
                     </div>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay="1000">
-                    <hr />
+                    <hr className="mt-50"/>
                     <div className="text-start w-30 mx-auto">
                         <FacebookShareCount url="https://www.facebook.com">
                             {shareCount => (    

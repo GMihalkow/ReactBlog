@@ -13,7 +13,6 @@ export class IndexPage extends Component {
           <div>
             {this.props.articles.slice(0, 3).map((el, index) =>{
               if(index % 2 === 0){
-
                 return (
                 <Animated animationIn="fadeInLeft" isVisible={true}>
                   <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />

@@ -34,12 +34,12 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-            <Banner/>
-            <Nav/>
-            <RouterComponent articles={this.state.articles} getArticles={this.getArticles} posts={this.state.posts} test={this.test}/>
-            {/* <Footer/> */}
-        </div>
+      <div className="App">
+        <Banner/>
+        <Nav/>
+        <RouterComponent articles={this.state.articles} getArticles={this.getArticles} posts={this.state.posts} test={this.test}/>
+        <Footer/> 
+      </div>
       </Router>
     );
   }

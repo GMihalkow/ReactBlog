@@ -4,12 +4,12 @@ import { Animated } from "react-animated-css";
 export class AboutPage extends Component {
   render() {
     return (
-      <div className="w-70 mx-10-auto">
+      <div className="w-70 p-20 mx-10-auto">
         <Animated animationIn="fadeInUp">
             <h1 className="font-40 ml-5 w-70">За мен</h1>
             <hr/>
         </Animated>
-        <div className="three-to-one-grid p-10 m-10">
+        <div className="three-to-one-grid p-10 m-20">
         <Animated animationIn="zoomIn">
             <div className="text-start mt-25 p-10">
                 <p>
