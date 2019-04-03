@@ -25,7 +25,7 @@ export class AboutPage extends Component {
         </Animated>
         <Animated animationIn="zoomIn">
             <div className="mt-25 p-10">
-                <img height="500" width="500" title="title" alt="coverImage" src="https://scontent.fsof3-1.fna.fbcdn.net/v/t1.0-9/13557815_1470933822922972_3225209787342057968_n.jpg?_nc_cat=103&_nc_ht=scontent.fsof3-1.fna&oh=cc4c331386a930f213e0e4a74b109498&oe=5D4A2925"/>
+                <img height="500" width="500" title="title" alt="coverImage" src="https://firebasestorage.googleapis.com/v0/b/blog-583ce.appspot.com/o/test.jpg?alt=media&token=d5d45cac-2245-482f-925d-f485d8ca45bc"/>
             </div>
         </Animated>
         </div>

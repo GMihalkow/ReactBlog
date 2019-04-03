@@ -14,18 +14,18 @@ export class IndexPage extends Component {
             {this.props.articles.slice(0, 3).map((el, index) =>{
               if(index % 2 === 0){
                 return (
-                <Animated animationIn="fadeInLeft" isVisible={true}>
+                <Animated animationIn="fadeInLeft" animationInDelay="500" isVisible={true}>
                   <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
               } else {
                 return (
-                <Animated animationIn="fadeInRight" isVisible={true}>
+                <Animated animationIn="fadeInRight" animationInDelay="500" isVisible={true}>
                   <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
               }
             })}
           </div>
-          <div className="text-center mt-25">
+          <div className="text-center mt-50">
             <FB/>
             <Animated animationInDelay="1000" animationIn="fadeInRight" isVisible={true}>
             <div className="mt-25">

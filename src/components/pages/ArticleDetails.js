@@ -30,7 +30,7 @@ export class ArticleDetails extends Component {
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay="1000" >
-                    <div class="mt-50">
+                    <div class="mt-50 font-20">
                         <div class="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
