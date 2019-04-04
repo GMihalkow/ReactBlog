@@ -8,9 +8,9 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: Arial, Helvetica, sans-serif;  
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   position: relative;
-  line-height: 1.50;
+  line-height: 1.69;
 }
 
 body::after{ content:''; display:block; height:50px; }
@@ -18,6 +18,7 @@ body::after{ content:''; display:block; height:50px; }
 #footer{
   position:absolute; 
   bottom:0; 
+  margin-top: 50px;
   width:100%; 
   height:50px; 
 }
@@ -102,12 +103,19 @@ background-color: #0099cc;
   padding:10px;
 }
 
+.position-relative{
+  position: relative;
+}
+
 .nav{
   text-decoration: none;
   color:white;
+  position:absolute;
+  bottom:0;
+  right:0;
   list-style: none;
   font-size: 25px;
-  padding: 10px 5%;
+  padding: 10px 0px;
 }
 
 .float-left{
@@ -154,7 +162,7 @@ font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 }
 
 .raise-nav-btn{
-  transition: font-size .3s; /* Animation */  
+  transition: font-size .2s; /* Animation */  
 }
 
 .raise-nav-btn:hover { 
@@ -163,8 +171,17 @@ font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 
 /* UI Animations */
 
+.zoom-element{
+  transition: transform .2s;
+}
+
+.zoom-element:hover{
+  transform: scale(1.03);
+}
+
 .article-image{
   transition: transform .2s; /* Animation */  
+  border-radius: 5px;
 }
 
 .article-image:hover{
@@ -240,7 +257,8 @@ margin: 0px auto;
 
 .three-to-one-grid{
   display:grid;
-  grid-template-columns: 6fr 2fr;
+  grid-template-columns: 7fr 3fr;
+  padding: 20px;
 }
 
 .two-to-four-grid{
@@ -301,4 +319,26 @@ img{
 
 .bg-transparent{
   background-color: transparent;
+}
+
+.four-fragments-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.card-image{
+  height: 200px;
+}
+
+.equal-shared-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px 5%;
+  width: 70%;
+}
+
+.custom-select{
+  border: #efefef solid 1px;
+  box-shadow: #ccc 0px 3px 5px 0px; 
+  border-bottom: #003399 1.5px solid;
 }

@@ -11,7 +11,7 @@ export class ArticleDetails extends Component {
         result: ""
     }
 
-    render() {
+    componentDidMount(){
         axios.get("https://blog-583ce.firebaseio.com/Articles/" + this.props.match.params.id + ".json")
         .then((data) => {
             this.setState({ article: data.data });
@@ -19,24 +19,27 @@ export class ArticleDetails extends Component {
         .catch((error) => {
             
         });
+    }
+    
+    render() {
 
         return (
             <div className="text-center mx-10-auto p-10 w-70">
-                <Animated animationIn="fadeInRight" animationInDelay="1000" >
+                <Animated animationIn="fadeInRight" animationInDelay={1000} >
                     <h1 class="font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
-                <Animated animationIn="fadeIn" animationInDelay="1000">
+                <Animated animationIn="fadeIn" animationInDelay={1000}>
                     <p class="m-0">Автор: <span class="bold">Илиана Симеонова</span> / {this.state.article.Date} </p>
                     <hr />
                 </Animated>
-                <Animated animationIn="fadeInLeft" animationInDelay="1000" >
+                <Animated animationIn="fadeInLeft" animationInDelay={1000} >
                     <div class="mt-50 font-20">
                         <div class="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
                     </div>
                 </Animated>
-                <Animated animationIn="fadeIn" animationInDelay="1000">
+                <Animated animationIn="fadeIn" animationInDelay={1000}>
                     <hr className="mt-50"/>
                     <div className="text-start w-30 mx-auto">
                         <FacebookShareCount url="https://www.facebook.com">

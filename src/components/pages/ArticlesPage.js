@@ -2,34 +2,91 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Card from './ArticleCard';
 import { Animated } from "react-animated-css";
-
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-
+function TabContainer(props) {
+    return (
+      <Typography component="div" style={{ padding: 10 }}>
+        {props.children}
+      </Typography>
+    );
+  }
+  
+  TabContainer.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+  
+  const styles = theme => ({
+    root: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper
+    },
+  });
+  
+  
 export class ArticlesPage extends Component {
 
+    state = {
+        value: 0,
+    };
+    
+      handleChange = (event, value) => {
+        this.setState({ value });
+      };
     render() {
+        const { classes } = this.props;
+        const { value } = this.state;
         return (
             <div className="w-70 mx-10-auto text-center">
-              <Animated animationIn="fadeIn" animationInDelay="500">
-                <div className="four-fragments-grid mt-50">
-                  <Link to="/articles/1"><Card name="test" /></Link>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  </div>
-              </Animated>
-                {/* <ul className="mt-25 nav"> */}
-                    {/* <a className="text-white bg-nav p-20 m-20 bold raise-nav-btn text-center" href="/">2019</a> */}
-                {/* </ul> */}
+                <AppBar position="static" className="mt-50" color="inherit">
+                    <Tabs 
+                        value={value} 
+                        indicatorColor="primary"
+                        onChange={this.handleChange} 
+                        variant="fullWidth">
+                            <Tab label="2019" />
+                            <Tab label="Всички" />
+                    </Tabs>
+                </AppBar>
+        {value === 0 && 
+            <TabContainer>
+            <Animated animationIn="fadeIn" animationInDelay={500}>
+            <div className="text-start m-10 w-70">
+            <select className="p-10 custom-select font-16">
+                <option selected="selected">Сортирай</option>
+                <option>По Дата</option>
+                <option>По Име</option>
+            </select>
+            </div>
+              <div className="four-fragments-grid">
+                <Link to="/articles/1"><Card name="test" /></Link>
+                <Link to="/articles/1"><Card name="test" /></Link>
+                <Link to="/articles/1"><Card name="test" /></Link>
+                <Link to="/articles/1"><Card name="test" /></Link>    
+              </div>
+            </Animated>
+        </TabContainer>}
+        {value === 1 && 
+            <TabContainer>
+            <Animated animationIn="fadeIn" animationInDelay={500}>
+            <div className="text-start m-10 w-70">
+            <select className="p-10 custom-select font-16">
+                <option>Сортирай</option>
+                <option>По Дата</option>
+                <option>По Име</option>
+            </select>
+            </div>
+                <div className="four-fragments-grid">
+                </div>
+            </Animated>
+        </TabContainer>}
             </div>
         )
     }
