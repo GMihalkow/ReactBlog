@@ -24,7 +24,7 @@ export class ArticleDetails extends Component {
     render() {
 
         return (
-            <div className="text-center mx-10-auto p-10 w-70">
+            <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1000} >
                     <h1 class="font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
@@ -33,7 +33,7 @@ export class ArticleDetails extends Component {
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay={1000} >
-                    <div class="mt-50 font-20">
+                    <div class="mt-50">
                         <div class="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
@@ -54,7 +54,7 @@ export class ArticleDetails extends Component {
                         </FacebookShareCount>
                     </div>
                 </Animated>
-            </div>
+            </article>
         )
     }
 }

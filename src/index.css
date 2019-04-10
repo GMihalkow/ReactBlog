@@ -245,7 +245,6 @@ margin: 0px auto;
   outline: none;
 }
 
-
 #fontSizeSelect::-ms-expand { 
   background: black;
   display: none; /* hide the default arrow in ie10 and ie11 */
@@ -257,8 +256,7 @@ margin: 0px auto;
 
 .three-to-one-grid{
   display:grid;
-  grid-template-columns: 7fr 3fr;
-  padding: 20px;
+  grid-template-columns: 10fr 3fr;
 }
 
 .two-to-four-grid{
@@ -289,6 +287,10 @@ margin: 0px auto;
 
 .font-25{
   font-size: 25px;
+}
+
+.font-16{
+  font-size: 16px;
 }
 
 .font-14{
@@ -341,4 +343,69 @@ img{
   border: #efefef solid 1px;
   box-shadow: #ccc 0px 3px 5px 0px; 
   border-bottom: #003399 1.5px solid;
+}
+
+
+@media screen and (max-width: 1230px) {
+  .three-to-one-grid{
+    width:100%;
+    /* grid-templa  te-columns: 10fr 3fr; */
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .four-fragments-grid{
+    display: block;
+  }
+  
+  #articles{
+    width: 100%;
+  }
+
+  #mainHeading{
+    font-size:40px;
+  }
+
+  .raise-main-heading{
+    transition: transform 2s;
+  }
+  
+  .raise-main-heading:hover{ 
+    font-size: 60px;
+  }
+  .three-to-one-grid{
+    display:block;
+  }
+  
+
+}
+@media screen and (max-width: 850px) {
+  #navigation{
+    display: none;
+  }
+  
+  #article{
+    width: 100%;
+    padding: 0px;
+  }
+
+  .responsive-image{
+   height: 100%; 
+   width: 100%; 
+  }
+}
+
+
+@media screen and (max-width: 690px) {
+  .cover-image{
+    width: 100%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {  
+ h1{
+   transform: scale(0.5);
+ }
 }

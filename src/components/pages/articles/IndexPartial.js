@@ -7,12 +7,12 @@ export class ArticlePartial extends Component {
     if(content.length < 50){
       return content + "...<a href='/articles/" + this.props.Id + "'>Прочети повече</a>";
     } else{
-      return content.substr(0, 50) + "...<a href='/articles/" + this.props.Id + "'>Прочети повече</a>"
+      return content.substr(0, 50) + "...<a href='/article/" + this.props.Id + "'>Прочети повече</a>"
     }
   }
 
   render() {
-    const articleLink = "/articles/" + this.props.Id;
+    const articleLink = "/article/" + this.props.Id;
     
     return (
       <div className="mt-50">

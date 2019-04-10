@@ -18,13 +18,12 @@ export class ArticleCard extends Component {
                 title="Article cover"
                 />
                 <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {this.props.name}
-                </Typography>
-                <Typography component="p">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                    across all continents except Antarctica
-                </Typography>
+                    <Typography gutterBottom variant="h6" component="h6">
+                        {this.props.title}
+                    </Typography>
+                    <Typography gutterBottom variant="p" component="p">
+                        {this.props.date}
+                    </Typography>
                 </CardContent>
             </CardActionArea>
             <CardActions>
