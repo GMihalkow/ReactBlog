@@ -80,7 +80,7 @@ export class ArticlesPage extends Component {
                         <Tab label="Всички" />
                 </Tabs>
             </AppBar>
-    {value === 0 && 
+      {value === 0 && 
         <TabContainer>
         <Animated animationIn="fadeIn" animationInDelay={500}>
         <div className="text-start m-10 w-70">
@@ -92,7 +92,7 @@ export class ArticlesPage extends Component {
         </div>
           <div className="four-fragments-grid">
           {Array.from(this.props.articles).map((art) => {
-            let toRoute = "/article/" + art.Id;
+            let toRoute = "/article/" + art._id;
             return (<Link to={toRoute}><Card date={art.Date} title={art.Title.substr(0, 10) + "..."}/></Link>);
           })} 
           </div>

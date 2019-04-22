@@ -12,14 +12,22 @@ library.add(faBookOpen);
 class App extends Component {
   state = {
     posts: [],
-    articles: []
+    articles: [],
+    url: "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles"
   }
 
   componentDidMount = () => {
-    axios.get("https://blog-583ce.firebaseio.com/Articles.json")
-      .then((d) => {
-        this.setState({articles: [...Object.keys(d.data).map((key) => d.data[key])]});
-      });
+    fetch(this.state.url, {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+      }
+    }).then((data) => {
+      return data.json();
+    }).then((articles) => {
+      this.setState({articles: articles});
+    });
   }
 
   test = () => {
@@ -35,7 +43,7 @@ class App extends Component {
       <Router>
       <div className="App">
         <Banner/>
-        <RouterComponent articles={this.state.articles} getArticles={this.getArticles} posts={this.state.posts} test={this.test}/>
+        <RouterComponent articles={this.state.articles} url={this.state.url} getArticles={this.getArticles} posts={this.state.posts} test={this.test}/>
         <Footer/> 
       </div>
       </Router>

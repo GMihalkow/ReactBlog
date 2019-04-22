@@ -4,6 +4,7 @@ import { FacebookShareButton } from 'react-share';
 import { FacebookShareCount } from 'react-share';
 import { SocialIcon } from 'react-social-icons';
 import { Animated } from "react-animated-css";
+import { config } from '@fortawesome/fontawesome-svg-core';
 
 export class ArticleDetails extends Component {
     state = {
@@ -12,13 +13,29 @@ export class ArticleDetails extends Component {
     }
 
     componentDidMount(){
-        axios.get("https://blog-583ce.firebaseio.com/Articles/" + this.props.match.params.id + ".json")
-        .then((data) => {
-            this.setState({ article: data.data });
-        })
-        .catch((error) => {
-            
-        });
+        let url = "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles/" + this.props.match.params.id;
+
+        fetch(url, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+            }
+            }).then((data) => {
+                return data.json();
+            }).then((article) => {
+                article.views++;
+                fetch(url, {
+                    method: "PUT", // *GET, POST, PUT, DELETE, etc.
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+                    },
+                    body: JSON.stringify(article)
+                    }).then(() => {
+                        this.setState({article: article});
+                });
+            });
     }
     
     render() {
@@ -29,7 +46,7 @@ export class ArticleDetails extends Component {
                     <h1 class="font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1000}>
-                    <p class="m-0">Автор: <span class="bold">Илиана Симеонова</span> / {this.state.article.Date} </p>
+                    <p class="m-0">Автор: <span class="bold">{this.state.article.Author}</span> / {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay={1000} >

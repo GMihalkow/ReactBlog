@@ -19,12 +19,12 @@ class IndexPage extends Component {
             if (index % 2 === 0) {
               return (
                 <Animated animationIn="fadeInLeft" animationInDelay={1000} isVisible={true}>
-                  <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+                  <Article Id={el._id} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
             } else {
               return (
                 <Animated animationIn="fadeInRight" animationInDelay={1000} isVisible={true}>
-                  <Article Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+                  <Article Id={el._id} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
                 </Animated>);
             }
           })}
@@ -39,7 +39,7 @@ class IndexPage extends Component {
             <div className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto p-10">Популярни статии</h2>
               {this.props.articles.slice(0, 3).map((el, index) => {
-                return <LittelArticle Id={el.Id} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+                return <LittelArticle Id={el._id} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
               })}
             </div>
           </Animated>
