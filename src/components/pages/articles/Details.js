@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { FacebookShareButton } from 'react-share';
 import { FacebookShareCount } from 'react-share';
 import { SocialIcon } from 'react-social-icons';
@@ -42,21 +41,21 @@ export class ArticleDetails extends Component {
 
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
-                <Animated animationIn="fadeInRight" animationInDelay={1000} >
+                <Animated animationIn="fadeInRight" animationInDelay={1500} >
                     <h1 class="font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
-                <Animated animationIn="fadeIn" animationInDelay={1000}>
-                    <p class="m-0">Автор: <span class="bold">{this.state.article.Author}</span> / {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
+                <Animated animationIn="fadeIn" animationInDelay={1500}>
+                    <p class="m-0">Автор: <span class="bold">{this.state.article.Author}</span> / Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
                     <hr />
                 </Animated>
-                <Animated animationIn="fadeInLeft" animationInDelay={1000} >
+                <Animated animationIn="fadeInLeft" animationInDelay={1500} >
                     <div class="mt-50">
                         <div class="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
                     </div>
                 </Animated>
-                <Animated animationIn="fadeIn" animationInDelay={1000}>
+                <Animated animationIn="fadeIn" animationInDelay={1500}>
                     <hr className="mt-50"/>
                     <div className="text-start w-30 mx-auto">
                         <FacebookShareCount url="https://www.facebook.com">

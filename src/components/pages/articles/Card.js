@@ -14,15 +14,18 @@ export class ArticleCard extends Component {
             <CardActionArea>
                 <CardMedia
                 className="card-image"
-                image="https://firebasestorage.googleapis.com/v0/b/blog-583ce.appspot.com/o/test.png?alt=media&token=16f010ff-4596-4e84-a154-13f6b95781cc"
+                image={this.props.cover}
                 title="Article cover"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="h6">
                         {this.props.title}
                     </Typography>
-                    <Typography gutterBottom variant="p" component="p">
-                        {this.props.date}
+                    <Typography className="m-0" gutterBottom variant="body1" component="p">
+                        Дата: {this.props.date}
+                    </Typography>
+                    <Typography className="m-0" gutterBottom variant="body1" component="p">
+                        Преглеждания: {this.props.views}
                     </Typography>
                 </CardContent>
             </CardActionArea>

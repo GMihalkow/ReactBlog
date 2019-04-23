@@ -22,7 +22,7 @@ export class AboutPage extends Component {
         </Animated>
         <Animated animationIn="zoomIn">
             <div className="mt-25 p-10">
-                <img className="br-5 cover-image" height="500" width="500" title="title" alt="coverImage" src="https://firebasestorage.googleapis.com/v0/b/blog-583ce.appspot.com/o/test.jpg?alt=media&token=d5d45cac-2245-482f-925d-f485d8ca45bc"/>
+                <img className="br-5 cover-image" height="500" width="350" title="title" alt="coverImage" src="https://firebasestorage.googleapis.com/v0/b/blog-583ce.appspot.com/o/about.jpg?alt=media&token=5f782553-4fd2-4489-b0f3-922c8a2090f5"/>
             </div>
         </Animated>
         </div>

@@ -1,15 +1,12 @@
 import React, { Component } from '../../../../node_modules/react';
 import { Link } from '../../../../node_modules/react-router-dom';
 import Card from './Card';
+import Pagging from '../../partials/Pagging';
 import { Animated } from "react-animated-css";
 import PropTypes from '../../../../node_modules/prop-types';
-import { withStyles } from '../../../../node_modules/@material-ui/core/styles';
 import AppBar from '../../../../node_modules/@material-ui/core/AppBar';
-import Paper from '../../../../node_modules/@material-ui/core/Paper';
 import Tabs from '../../../../node_modules/@material-ui/core/Tabs';
-import NoSsr from '../../../../node_modules/@material-ui/core/NoSsr';
 import Tab from '../../../../node_modules/@material-ui/core/Tab';
-import axios from '../../../../node_modules/axios';
 import Typography from '../../../../node_modules/@material-ui/core/Typography';
 
 function TabContainer(props) {
@@ -35,84 +32,118 @@ function TabContainer(props) {
 export class ArticlesPage extends Component {
 
     state = {
+        articles: [],
         value: 0,
+        sort: undefined,
+        parameter: undefined,
+        url: "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles",
+        onPageCount: 12
     };
 
     handleChange = (event, value) => {
       this.setState({ value });
     };
 
-    render() {
-      function parseQueryString(queryString){
-        // trimming the '?' in the beggining 
-        let tempString = queryString.substr(1);
-        
-        // declaring the empty params obj
-        let params = {};
+    onChange = () => {
+      let criterias = document.getElementById("sort-criteria").value.split(":");
 
-        // spliting the parameters by &
-        let parameters = tempString.split("&");
-        
-        Array.from(parameters).forEach((p) => {
-          // spliting the key and value pair
-          let temp = p.split("=");
-          let key = temp[0];
-          let value = temp[1];
-          
-          // creating the param
-          params[key] = value;
-        });
-
-        return params;
+      const validSortTypes = {
+        asc: true,
+        desc: true
       };
 
-      const { classes } = this.props;
+      const validParameterTypes = {
+        Title: true,
+        Date: true,
+        views: true
+      };
+
+      let sort = criterias[1];
+      let parameter = criterias[0];
+
+        if(validSortTypes[sort] === true && validParameterTypes[parameter] === true){
+          if(sort === "asc"){
+            if(parameter === "views"){
+              let sortedArticles = this.state.articles.sort((a, b) => a[parameter] - (b[parameter]));
+              this.setState({articles: sortedArticles});
+            } else {
+              let sortedArticles = this.state.articles.sort((a, b) =>(a[parameter].localeCompare(b[parameter])));
+              this.setState({articles: sortedArticles});
+            }
+          } else {
+            if(parameter === "views"){
+              let sortedArticles = this.state.articles.sort((a, b) => b[parameter] - (a[parameter]));
+              this.setState({articles: sortedArticles});
+            } else {
+              let sortedArticles = this.state.articles.sort((a, b) => (b[parameter].localeCompare(a[parameter])));
+              this.setState({articles: sortedArticles});
+            }
+          }
+          
+          this.setState({ sort: sort, parameter: parameter });
+        }
+    }
+
+    componentDidMount() {
+      // Initial loading of the articles
+      if(this.state.sort === undefined || this.state.parameter === undefined){
+        fetch(this.state.url + "?limit=" + this.state.onPageCount + "&skip=" + this.state.loadedCount, {
+          method: "GET", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+          }
+        }).then((data) => {
+          return data.json();
+        }).then((articles) => {
+          this.setState({articles: articles});
+        });
+      } else {
+        this.setState({articles: this.state.articles});
+      }      
+    }
+
+    render() {
       const { value } = this.state;
       return (
-        <div id="articles" className="w-70 mx-10-auto text-center">
-            <AppBar position="static" className="mt-50" color="inherit">
-                <Tabs 
-                    value={value} 
-                    indicatorColor="primary"
-                    onChange={this.handleChange} 
-                    variant="fullWidth">
-                        <Tab label="2019" />
-                        <Tab label="Всички" />
-                </Tabs>
-            </AppBar>
-      {value === 0 && 
-        <TabContainer>
-        <Animated animationIn="fadeIn" animationInDelay={500}>
-        <div className="text-start m-10 w-70">
-        <select className="p-10 custom-select font-16">
-            <option selected="selected">Сортирай</option>
-            <option>По Дата</option>
-            <option>По Име</option>
-        </select>
-        </div>
-          <div className="four-fragments-grid">
-          {Array.from(this.props.articles).map((art) => {
-            let toRoute = "/article/" + art._id;
-            return (<Link to={toRoute}><Card date={art.Date} title={art.Title.substr(0, 10) + "..."}/></Link>);
-          })} 
-          </div>
-        </Animated>
-    </TabContainer>}
-    {value === 1 && 
-        <TabContainer>
-        <Animated animationIn="fadeIn" animationInDelay={500}>
-        <div className="text-start m-10 w-70">
-        <select className="p-10 custom-select font-16">
-            <option>Сортирай</option>
-            <option>По Дата</option>
-            <option>По Име</option>
-        </select>
-        </div>
-            <div className="four-fragments-grid">
+          <div id="articles" className="w-70 mx-10-auto text-center">
+              <AppBar position="static" className="mt-50" color="inherit">
+                  <Tabs 
+                      value={value} 
+                      indicatorColor="primary"
+                      variant="fullWidth">
+                      <Tab label="Статии" />
+                  </Tabs>
+              </AppBar>
+            {value === 0 && 
+              <TabContainer>
+            <Animated animationIn="fadeIn" animationInDelay={1500}>
+            <div className="equal-shared-grid mx-auto w-70">
+              <div className="text-start mx-auto">
+                <select id="sort-criteria" className="p-10 custom-select font-16" onChange={this.onChange}>
+                  <option defaultValue>Сортирай</option>
+                  <option value="Date:asc">По дата възходящо</option>
+                  <option value="Title:asc">По име възходящо</option>
+                  <option value="Date:desc">По дата низходящо</option>
+                  <option value="Title:desc">По име низходящо</option>
+                  <option value="views:asc">По преглеждания възходящо</option>
+                  <option value="views:desc">По преглеждания низходящо</option>
+                </select>
+              </div>
+              <div className="text-end">
+              <input className="p-10 custom-select font-16" placeholder="Търси по име..."/>
             </div>
-        </Animated>
-    </TabContainer>}
-        </div>
+            </div>
+              <div className="four-fragments-grid">
+              {Array.from(this.state.articles).map((art) => {
+                let toRoute = "/article/" + art._id;
+                return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
+              })} 
+              </div>
+            </Animated>
+          </TabContainer>}
+          <Pagging/>
+          </div>
     )
   }
 }
