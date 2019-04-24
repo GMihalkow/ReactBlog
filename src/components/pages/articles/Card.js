@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 export class ArticleCard extends Component {
   render() {
     return (
-        <Card className="m-10 zoom-element">
+        <Card className="m-10 zoom-element article">
             <CardActionArea>
                 <CardMedia
                 className="card-image"

@@ -345,6 +345,14 @@ img{
   border-bottom: #003399 1.5px solid;
 }
 
+.selected{
+  border: #efefef solid 1px;
+  box-shadow: #ccc 0px 3px 5px 0px; 
+  background-color: #003399;
+  color: white;
+  border-bottom: white 1.5px solid;
+}
+
 
 @media screen and (max-width: 1230px) {
   .three-to-one-grid{
@@ -407,4 +415,13 @@ img{
  h1{
    transform: scale(0.5);
  }
+}
+
+#moreBtn{
+  color: #003399;
+}
+
+#moreBtn:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }

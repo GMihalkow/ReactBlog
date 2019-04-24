@@ -1,7 +1,6 @@
 import React, { Component } from '../../../../node_modules/react';
 import { Link } from '../../../../node_modules/react-router-dom';
 import Card from './Card';
-import Pagging from '../../partials/Pagging';
 import { Animated } from "react-animated-css";
 import PropTypes from '../../../../node_modules/prop-types';
 import AppBar from '../../../../node_modules/@material-ui/core/AppBar';
@@ -37,7 +36,19 @@ export class ArticlesPage extends Component {
         sort: undefined,
         parameter: undefined,
         url: "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles",
-        onPageCount: 12
+        onPageCount: 12,
+        page: 1,
+        totalArticlesCount: 0,
+        skippedArticles: 0,
+        validSortTypes: {
+          asc: true,
+          desc: true
+        },
+        validParameterTypes: {
+          Title: true,
+          Date: true,
+          views: true
+        }
     };
 
     handleChange = (event, value) => {
@@ -47,60 +58,142 @@ export class ArticlesPage extends Component {
     onChange = () => {
       let criterias = document.getElementById("sort-criteria").value.split(":");
 
-      const validSortTypes = {
-        asc: true,
-        desc: true
-      };
-
-      const validParameterTypes = {
-        Title: true,
-        Date: true,
-        views: true
-      };
-
       let sort = criterias[1];
       let parameter = criterias[0];
 
-        if(validSortTypes[sort] === true && validParameterTypes[parameter] === true){
-          if(sort === "asc"){
-            if(parameter === "views"){
-              let sortedArticles = this.state.articles.sort((a, b) => a[parameter] - (b[parameter]));
-              this.setState({articles: sortedArticles});
-            } else {
-              let sortedArticles = this.state.articles.sort((a, b) =>(a[parameter].localeCompare(b[parameter])));
-              this.setState({articles: sortedArticles});
-            }
-          } else {
-            if(parameter === "views"){
-              let sortedArticles = this.state.articles.sort((a, b) => b[parameter] - (a[parameter]));
-              this.setState({articles: sortedArticles});
-            } else {
-              let sortedArticles = this.state.articles.sort((a, b) => (b[parameter].localeCompare(a[parameter])));
-              this.setState({articles: sortedArticles});
-            }
-          }
-          
-          this.setState({ sort: sort, parameter: parameter });
-        }
+      this.fetchArticles(sort, parameter, 0, false);
     }
 
-    componentDidMount() {
-      // Initial loading of the articles
-      if(this.state.sort === undefined || this.state.parameter === undefined){
-        fetch(this.state.url + "?limit=" + this.state.onPageCount + "&skip=" + this.state.loadedCount, {
+    onClick = () => {
+      let skipAmount = Array.from(document.querySelectorAll(".article")).length;
+
+      if(this.state.totalArticlesCount > skipAmount){
+        this.fetchArticles(this.state.sort, this.state.parameter, skipAmount, true);
+      } else {
+        let moreBtn = document.querySelector("#moreBtn");
+        moreBtn.textContent = "Няма повече статии";
+      }
+    }
+
+    fetchArticles(sort, parameter, skipAmount, append) {
+      if(sort === undefined || parameter === undefined){
+        fetch(this.state.url + "?limit=" + this.state.onPageCount + "&skip=" + skipAmount, {
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+            "Content-Type": "application/json",
+            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
           }
         }).then((data) => {
           return data.json();
         }).then((articles) => {
-          this.setState({articles: articles});
+          if(append){
+            let newArticles = articles;
+
+            this.setState({articles: this.state.articles.concat(newArticles)});                   
+          } else {
+            this.setState({articles: articles, skippedArticles: skipAmount});
+          }
         });
       } else {
-        this.setState({articles: this.state.articles});
-      }      
+        if(this.state.validSortTypes[sort] === true && this.state.validParameterTypes[parameter] === true){
+          if(sort === "asc"){
+            fetch(encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount + '&sort={"' + parameter + '":1}'), {
+              method: "GET", // *GET, POST, PUT, DELETE, etc.
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+              }
+            }).then((data) => {
+              return data.json();
+            }).then((articles) => {
+              if(parameter === "Date"){
+                if(append){
+                  let newArticles = articles.sort((a, b) => {
+                    let date1 = new Date(a[parameter]).getTime();
+                    let date2 = new Date(b[parameter]).getTime();
+
+                    return date1 - date2;
+                  });
+
+                  this.setState({articles: this.state.articles.concat(newArticles)});   
+                } else{
+                  this.setState({articles: articles.sort((a, b) => {
+                    let date1 = new Date(a[parameter]).getTime();
+                    let date2 = new Date(b[parameter]).getTime();
+                      return date1 - date2;
+                    })
+                  });
+                }
+              } else {
+                if(append){
+                  let newArticles = articles;
+
+                  this.setState({articles: this.state.articles.concat(newArticles)});   
+                } else {
+                  this.setState({articles: articles});
+                }
+              }
+            });
+          } else {
+            fetch(encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount + '&sort={"' + parameter + '":-1}'), {
+              method: "GET", // *GET, POST, PUT, DELETE, etc.
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+              }
+            }).then((data) => {
+              return data.json();
+            }).then((articles) => {
+              if(parameter === "Date"){
+                if(append){
+                  let newArticles = articles.sort((a, b) => {
+                    let date1 = new Date(a[parameter]).getTime();
+                    let date2 = new Date(b[parameter]).getTime();
+  
+                    return date2 - date1;
+                  });
+  
+                  this.setState({articles: this.state.articles.concat(newArticles)});   
+                } else {
+                  let newArticles = articles.sort((a, b) => {
+                    let date1 = new Date(a[parameter]).getTime();
+                    let date2 = new Date(b[parameter]).getTime();
+  
+                    return date2 - date1;
+                  });
+                  this.setState({articles: newArticles});   
+                }
+              } else {
+                this.setState({articles: articles});
+              }
+            });
+          }
+          
+          this.setState({ sort: sort, parameter: parameter });
+        }
+      }
+    }
+
+    fetchArticlesCount(){
+      fetch(this.state.url + "/_count", {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+        }
+      }).then((data) => {
+        return data.json();
+      }).then((data) => {
+        this.setState({totalArticlesCount: data.count});
+      });
+    }
+
+    componentDidMount() {
+      // Initial loading of the articles
+      this.fetchArticles(this.state.sort, this.state.perameter, 0);
+
+      // Getting the count of the articles
+      this.fetchArticlesCount();
     }
 
     render() {
@@ -141,8 +234,8 @@ export class ArticlesPage extends Component {
               })} 
               </div>
             </Animated>
+            <span onClick={this.onClick} id="moreBtn" className="mt-25 display-block" >Още статии</span>
           </TabContainer>}
-          <Pagging/>
           </div>
     )
   }

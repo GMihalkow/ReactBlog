@@ -42,15 +42,15 @@ export class ArticleDetails extends Component {
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1500} >
-                    <h1 class="font-40 mt-25">{this.state.article.Title}</h1>
+                    <h1 className="font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
-                    <p class="m-0">Автор: <span class="bold">{this.state.article.Author}</span> / Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
+                    <p className="m-0">Автор: <span className="bold">{this.state.article.Author}</span> / Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay={1500} >
-                    <div class="mt-50">
-                        <div class="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
+                    <div className="mt-50">
+                        <div className="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
                     </div>
