@@ -164,7 +164,13 @@ export class ArticlesPage extends Component {
                   this.setState({articles: newArticles});   
                 }
               } else {
-                this.setState({articles: articles});
+                if(append){
+                  let newArticles = articles;
+
+                  this.setState({articles: this.state.articles.concat(newArticles)});   
+                } else {
+                  this.setState({articles: articles});
+                }
               }
             });
           }
@@ -186,6 +192,28 @@ export class ArticlesPage extends Component {
       }).then((data) => {
         this.setState({totalArticlesCount: data.count});
       });
+    }
+
+    onSearch = () => {
+      let searchText = document.querySelector("#search-box").value;
+
+      if(searchText.length === 0){
+        document.querySelector("#moreBtn").style.display = "block";
+        this.fetchArticles(this.state.sort, this.state.perameter, 0);
+      } else {
+        fetch(encodeURI(this.state.url + '?query={"Title":{"$regex":"^' + searchText + '"} }'), {
+          method: "GET", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+          }
+        }).then((data) => {
+          return data.json();
+        }).then((articles) => {
+            this.setState({articles: articles});
+            document.querySelector("#moreBtn").style.display = "none";
+        });
+      }
     }
 
     componentDidMount() {
@@ -224,7 +252,7 @@ export class ArticlesPage extends Component {
                 </select>
               </div>
               <div className="text-end">
-              <input className="p-10 custom-select font-16" placeholder="Търси по име..."/>
+              <input id="search-box" onKeyUp={this.onSearch} className="p-10 custom-select font-16" placeholder="Търси по име..."/>
             </div>
             </div>
               <div className="four-fragments-grid">
