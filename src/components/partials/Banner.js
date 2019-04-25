@@ -2,6 +2,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Animated } from "react-animated-css";
 import Nav from './Navbar';
+import Loading from './Loading';
+
 
 function Banner() {
     return (

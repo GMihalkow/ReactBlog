@@ -10,7 +10,7 @@ export default class Router extends Component {
         return (
             <div>
                 <Route exact path="/" render={() => (
-                    <IndexPage articles={this.props.articles} />
+                    <IndexPage articles={this.props.articles} popularArticles={this.props.popularArticles} />
                 )} />
                 <Route exact path="/articles" component={ArticlesPage} />
                 <Route exact path="/about" component={AboutPage} />

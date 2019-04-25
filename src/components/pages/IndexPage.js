@@ -37,9 +37,9 @@ class IndexPage extends Component {
           </div>
           <Animated animationIn="fadeInRight" animationInDelay={1000} isVisible={true}>
             <div className="mt-50">
-              <h2 className="bg-nav w-100 text-white mx-auto p-10">Популярни статии</h2>
-              {this.props.articles.slice(0, 3).map((el, index) => {
-                return <LittelArticle Id={el._id} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+              <h2 className="bg-nav w-100 text-white mx-auto">Популярни статии</h2>
+              {this.props.popularArticles.map((el) => {
+                return <LittelArticle Id={el._id} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
             </div>
           </Animated>

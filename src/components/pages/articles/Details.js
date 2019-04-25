@@ -32,7 +32,7 @@ export class ArticleDetails extends Component {
                     },
                     body: JSON.stringify(article)
                     }).then(() => {
-                        this.setState({article: article});
+                    this.setState({article: article});
                 });
             });
     }

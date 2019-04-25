@@ -1,6 +1,7 @@
 import React, { Component } from '../../../../node_modules/react';
 import { Link } from '../../../../node_modules/react-router-dom';
 import Card from './Card';
+import NotFound from '../../partials/NotFound';
 import { Animated } from "react-animated-css";
 import PropTypes from '../../../../node_modules/prop-types';
 import AppBar from '../../../../node_modules/@material-ui/core/AppBar';
@@ -46,7 +47,7 @@ export class ArticlesPage extends Component {
         },
         validParameterTypes: {
           Title: true,
-          Date: true,
+          entryId: true,
           views: true
         }
     };
@@ -56,6 +57,7 @@ export class ArticlesPage extends Component {
     };
 
     onChange = () => {
+      document.querySelector("#moreBtn").textContent = "Още статии";
       let criterias = document.getElementById("sort-criteria").value.split(":");
 
       let sort = criterias[1];
@@ -76,108 +78,79 @@ export class ArticlesPage extends Component {
     }
 
     fetchArticles(sort, parameter, skipAmount, append) {
-      if(sort === undefined || parameter === undefined){
-        fetch(this.state.url + "?limit=" + this.state.onPageCount + "&skip=" + skipAmount, {
-          method: "GET", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-          }
-        }).then((data) => {
-          return data.json();
-        }).then((articles) => {
+      let oldArticles = this.state.articles;
+      this.setState({articles: []});
+
+      let searchText = document.querySelector("#search-box").value;
+      let baseUrl = encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount);
+      
+      if(searchText.length !== 0){
+        baseUrl = baseUrl + ('&query={"Title":{"$regex":"^' + searchText + '"} }');
+      } 
+
+      if(sort !== undefined && parameter !== undefined){
+        if(sort === "asc"){
+          baseUrl = (baseUrl + '&sort={"' + parameter + '":1}');
+        } else if(sort === "desc"){
+          baseUrl = (baseUrl + '&sort={"' + parameter + '":-1}');
+        }
+      }
+
+      fetch(baseUrl, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
+        }
+      }).then((data) => {
+        return data.json();
+      }).then((articles) => {
+        if(parameter === "Date"){
           if(append){
             let newArticles = articles;
 
-            this.setState({articles: this.state.articles.concat(newArticles)});                   
-          } else {
-            this.setState({articles: articles, skippedArticles: skipAmount});
+            this.setState({articles: oldArticles.concat(newArticles)});   
+          } else{
+            let notFound = document.querySelector("#not-found");
+            let moreBtn = document.querySelector("#moreBtn");
+
+            if(articles.length === 0){
+              moreBtn.style.display = "none";
+              notFound.style.display = "block";
+            } else {
+              moreBtn.style.display = "block";
+              notFound.style.display = "none";
+            }
+            this.setState({articles: articles});
           }
-        });
-      } else {
-        if(this.state.validSortTypes[sort] === true && this.state.validParameterTypes[parameter] === true){
-          if(sort === "asc"){
-            fetch(encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount + '&sort={"' + parameter + '":1}'), {
-              method: "GET", // *GET, POST, PUT, DELETE, etc.
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-              }
-            }).then((data) => {
-              return data.json();
-            }).then((articles) => {
-              if(parameter === "Date"){
-                if(append){
-                  let newArticles = articles.sort((a, b) => {
-                    let date1 = new Date(a[parameter]).getTime();
-                    let date2 = new Date(b[parameter]).getTime();
+        } else {
+          if(append){
+            let newArticles = articles;
 
-                    return date1 - date2;
-                  });
-
-                  this.setState({articles: this.state.articles.concat(newArticles)});   
-                } else{
-                  this.setState({articles: articles.sort((a, b) => {
-                    let date1 = new Date(a[parameter]).getTime();
-                    let date2 = new Date(b[parameter]).getTime();
-                      return date1 - date2;
-                    })
-                  });
-                }
-              } else {
-                if(append){
-                  let newArticles = articles;
-
-                  this.setState({articles: this.state.articles.concat(newArticles)});   
-                } else {
-                  this.setState({articles: articles});
-                }
-              }
-            });
+            this.setState({articles: oldArticles.concat(newArticles)});   
           } else {
-            fetch(encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount + '&sort={"' + parameter + '":-1}'), {
-              method: "GET", // *GET, POST, PUT, DELETE, etc.
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-              }
-            }).then((data) => {
-              return data.json();
-            }).then((articles) => {
-              if(parameter === "Date"){
-                if(append){
-                  let newArticles = articles.sort((a, b) => {
-                    let date1 = new Date(a[parameter]).getTime();
-                    let date2 = new Date(b[parameter]).getTime();
-  
-                    return date2 - date1;
-                  });
-  
-                  this.setState({articles: this.state.articles.concat(newArticles)});   
-                } else {
-                  let newArticles = articles.sort((a, b) => {
-                    let date1 = new Date(a[parameter]).getTime();
-                    let date2 = new Date(b[parameter]).getTime();
-  
-                    return date2 - date1;
-                  });
-                  this.setState({articles: newArticles});   
-                }
-              } else {
-                if(append){
-                  let newArticles = articles;
+            let notFound = document.querySelector("#not-found");
+            let moreBtn = document.querySelector("#moreBtn");
 
-                  this.setState({articles: this.state.articles.concat(newArticles)});   
-                } else {
-                  this.setState({articles: articles});
-                }
+            if(articles.length === 0){
+              if(moreBtn){
+                moreBtn.style.display = "none";
+              } else if(notFound){
+                notFound.style.display = "block";
               }
-            });
+            } else {
+              if(moreBtn){
+                moreBtn.style.display = "block";
+              } else if(notFound){
+                notFound.style.display = "none";
+              }
+            }
+
+            this.setState({articles: articles});
           }
-          
-          this.setState({ sort: sort, parameter: parameter });
         }
-      }
+      });
+      
     }
 
     fetchArticlesCount(){
@@ -195,10 +168,16 @@ export class ArticlesPage extends Component {
     }
 
     onSearch = () => {
+      let oldArticles = this.state.articles;
+      this.setState({articles: []});
+
+      document.querySelector("#moreBtn").textContent = "Още статии";  
       let searchText = document.querySelector("#search-box").value;
+      
+      let selectCriteria = document.querySelector("#sort-criteria");
+      selectCriteria.selectedIndex = 0;
 
       if(searchText.length === 0){
-        document.querySelector("#moreBtn").style.display = "block";
         this.fetchArticles(this.state.sort, this.state.perameter, 0);
       } else {
         fetch(encodeURI(this.state.url + '?query={"Title":{"$regex":"^' + searchText + '"} }'), {
@@ -210,8 +189,24 @@ export class ArticlesPage extends Component {
         }).then((data) => {
           return data.json();
         }).then((articles) => {
-            this.setState({articles: articles});
-            document.querySelector("#moreBtn").style.display = "none";
+          let notFound = document.querySelector("#not-found");
+          let moreBtn = document.querySelector("#moreBtn");
+
+          if(articles.length === 0){
+            if(moreBtn){
+              moreBtn.style.display = "none";
+            } else if(notFound){
+              notFound.style.display = "block";
+            }
+          } else {
+            if(moreBtn){
+              moreBtn.style.display = "block";
+            } else if(notFound){
+              notFound.style.display = "none";
+            }
+          }
+
+          this.setState({articles: articles});
         });
       }
     }
@@ -222,6 +217,22 @@ export class ArticlesPage extends Component {
 
       // Getting the count of the articles
       this.fetchArticlesCount();
+
+      document.addEventListener('fetchStart', function() {
+        let moreBtn = document.querySelector("#moreBtn");
+        if(moreBtn){
+          moreBtn.style.display = "none";
+        }
+      });
+
+      document.addEventListener('fetchEnd', function() {
+        let moreBtn = document.querySelector("#moreBtn");
+        if(moreBtn){
+          setTimeout(function(){
+            moreBtn.style.display = "block";
+          }, 1000);
+        }
+      });
     }
 
     render() {
@@ -238,14 +249,14 @@ export class ArticlesPage extends Component {
               </AppBar>
             {value === 0 && 
               <TabContainer>
-            <Animated animationIn="fadeIn" animationInDelay={1500}>
+            <Animated animationIn="fadeIn">
             <div className="equal-shared-grid mx-auto w-70">
               <div className="text-start mx-auto">
                 <select id="sort-criteria" className="p-10 custom-select font-16" onChange={this.onChange}>
-                  <option defaultValue>Сортирай</option>
-                  <option value="Date:asc">По дата възходящо</option>
+                  <option>Сортирай</option>
+                  <option value="entryId:asc" >По дата възходящо</option>
                   <option value="Title:asc">По име възходящо</option>
-                  <option value="Date:desc">По дата низходящо</option>
+                  <option value="entryId:desc">По дата низходящо</option>
                   <option value="Title:desc">По име низходящо</option>
                   <option value="views:asc">По преглеждания възходящо</option>
                   <option value="views:desc">По преглеждания низходящо</option>
@@ -255,14 +266,15 @@ export class ArticlesPage extends Component {
               <input id="search-box" onKeyUp={this.onSearch} className="p-10 custom-select font-16" placeholder="Търси по име..."/>
             </div>
             </div>
+              <NotFound />
               <div className="four-fragments-grid">
               {Array.from(this.state.articles).map((art) => {
                 let toRoute = "/article/" + art._id;
                 return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
               })} 
               </div>
+              <span onClick={this.onClick} id="moreBtn" className="moreBtn mt-25 display-block" >Още статии</span>
             </Animated>
-            <span onClick={this.onClick} id="moreBtn" className="mt-25 display-block" >Още статии</span>
           </TabContainer>}
           </div>
     )

@@ -16,9 +16,9 @@ export class ArticlePartial extends Component {
     
     return (
       <div className="mt-50">
-          <h1 className="bold text-center m-10 font-40 p-10"><Link to={articleLink} className="text-black">{this.props.Title}</Link></h1>
+          <h2 className="bold text-center m-10 font-35 p-10"><Link to={articleLink} className="text-black">{this.props.Title}</Link></h2>
           <p className="text-center m-10">Автор: <span className="bold">{this.props.Author}</span> / {this.props.Date}</p>
-          <Link to={articleLink} className="text-black"><img height="500" className="w-100 article-image" alt="article1" src={this.props.Cover} /></Link>
+          <Link to={articleLink} className="text-black"><img className="w-100 article-image" alt="article1" src={this.props.Cover} /></Link>
           <div className="w-70 text-center mx-10-auto" dangerouslySetInnerHTML={{__html:this.trimContent(this.props.Content)}}></div>
           <hr/>
       </div>
