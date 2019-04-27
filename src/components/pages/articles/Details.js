@@ -3,7 +3,6 @@ import { FacebookShareButton } from 'react-share';
 import { FacebookShareCount } from 'react-share';
 import { SocialIcon } from 'react-social-icons';
 import { Animated } from "react-animated-css";
-import { config } from '@fortawesome/fontawesome-svg-core';
 
 export class ArticleDetails extends Component {
     state = {
@@ -42,30 +41,29 @@ export class ArticleDetails extends Component {
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1500} >
-                    <h1 className="font-40 mt-25">{this.state.article.Title}</h1>
+                    <h1 className="details-title font-40 mt-25">{this.state.article.Title}</h1>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
-                    <p className="m-0">Автор: <span className="bold">{this.state.article.Author}</span> / Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
+                    <p className="m-0"> Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay={1500} >
                     <div className="mt-50">
-                        <div className="w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
+                        <div className="details-content w-70 text-start mx-10-auto font-20" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
                     </div>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
-                    <hr className="mt-50"/>
-                    <div className="text-start w-30 mx-auto">
+                <p className="text-center mt-50">Автор: <span className="bold">{this.state.article.Author}</span> </p>
+                    <hr className="mt-25"/>
+                    <div className="text-center w-70 p-10 mx-auto">
                         <FacebookShareCount url="https://www.facebook.com">
                             {shareCount => (    
-                                <React.Fragment >
-                                    <center>
-                                        <FacebookShareButton width="20px"  url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
-                                        <p>{shareCount}</p>
-                                    </center>
-                                </React.Fragment>
+                                <div className="text-center">
+                                    <FacebookShareButton className="display-inline m-10" url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
+                                    <p className="display-inline m-10">Споделяния: {shareCount}</p>
+                                </div>
                             )}
                         </FacebookShareCount>
                     </div>

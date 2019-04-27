@@ -21,12 +21,12 @@ function TabContainer(props) {
     children: PropTypes.node.isRequired,
   };
   
-  const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper
-    },
-  });
+  // const styles = theme => ({
+  //   root: {
+  //     flexGrow: 1,
+  //     backgroundColor: theme.palette.background.paper
+  //   },
+  // });
   
   
 export class ArticlesPage extends Component {
@@ -135,13 +135,15 @@ export class ArticlesPage extends Component {
             if(articles.length === 0){
               if(moreBtn){
                 moreBtn.style.display = "none";
-              } else if(notFound){
+              } 
+              if(notFound){
                 notFound.style.display = "block";
               }
             } else {
               if(moreBtn){
                 moreBtn.style.display = "block";
-              } else if(notFound){
+              } 
+              if(notFound){
                 notFound.style.display = "none";
               }
             }
@@ -168,7 +170,6 @@ export class ArticlesPage extends Component {
     }
 
     onSearch = () => {
-      let oldArticles = this.state.articles;
       this.setState({articles: []});
 
       document.querySelector("#moreBtn").textContent = "Още статии";  
@@ -195,13 +196,15 @@ export class ArticlesPage extends Component {
           if(articles.length === 0){
             if(moreBtn){
               moreBtn.style.display = "none";
-            } else if(notFound){
+            } 
+            if(notFound){
               notFound.style.display = "block";
             }
           } else {
             if(moreBtn){
               moreBtn.style.display = "block";
-            } else if(notFound){
+            } 
+            if(notFound){
               notFound.style.display = "none";
             }
           }
@@ -224,15 +227,6 @@ export class ArticlesPage extends Component {
           moreBtn.style.display = "none";
         }
       });
-
-      document.addEventListener('fetchEnd', function() {
-        let moreBtn = document.querySelector("#moreBtn");
-        if(moreBtn){
-          setTimeout(function(){
-            moreBtn.style.display = "block";
-          }, 1000);
-        }
-      });
     }
 
     render() {
@@ -251,9 +245,9 @@ export class ArticlesPage extends Component {
               <TabContainer>
             <Animated animationIn="fadeIn">
             <div className="equal-shared-grid mx-auto w-70">
-              <div className="text-start mx-auto">
-                <select id="sort-criteria" className="p-10 custom-select font-16" onChange={this.onChange}>
-                  <option>Сортирай</option>
+              <div className="text-start mx-10-auto p-10">
+                <select id="sort-criteria" className="responsive-input custom-select font-16" onChange={this.onChange}>
+                  <option className="text-center">Сортирай</option>
                   <option value="entryId:asc" >По дата възходящо</option>
                   <option value="Title:asc">По име възходящо</option>
                   <option value="entryId:desc">По дата низходящо</option>
@@ -262,8 +256,8 @@ export class ArticlesPage extends Component {
                   <option value="views:desc">По преглеждания низходящо</option>
                 </select>
               </div>
-              <div className="text-end">
-              <input id="search-box" onKeyUp={this.onSearch} className="p-10 custom-select font-16" placeholder="Търси по име..."/>
+              <div className="mx-10-auto p-10">
+              <input id="search-box" onKeyUp={this.onSearch} className="responsive-input custom-select font-16" placeholder="Търси по име..."/>
             </div>
             </div>
               <NotFound />
