@@ -6,7 +6,7 @@ export class AboutPage extends Component {
     return (
       <div id="about-section" className="w-70 p-20 mx-10-auto">
         <Animated animationIn="fadeInUp">
-            <h1 className="font-40 ml-5 w-70">За мен</h1>
+            <h2 id="about-me-heading" className="font-40 ml-5 w-70">За мен</h2>
             <hr/>
         </Animated>
         <div className="three-to-one-grid">

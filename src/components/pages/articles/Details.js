@@ -1,39 +1,32 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FacebookShareButton } from 'react-share';
 import { FacebookShareCount } from 'react-share';
 import { SocialIcon } from 'react-social-icons';
-import { Animated } from "react-animated-css";
+import { Animated } from 'react-animated-css';
+import RequestModel from '../../RequestModel';
 
-export class ArticleDetails extends Component {
-    state = {
-        article: {},
-        result: ""
+export class ArticleDetails extends RequestModel {
+    _isMounted = false;
+
+    constructor(props){
+        super(props);
+        
+        this.state = {
+            article: {}
+        }
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     componentDidMount(){
-        let url = "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles/" + this.props.match.params.id;
+        this._isMounted = true;
 
-        fetch(url, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-            }
-            }).then((data) => {
-                return data.json();
-            }).then((article) => {
-                article.views++;
-                fetch(url, {
-                    method: "PUT", // *GET, POST, PUT, DELETE, etc.
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-                    },
-                    body: JSON.stringify(article)
-                    }).then(() => {
-                    this.setState({article: article});
-                });
-            });
+        let url = process.env.REACT_APP_KINVEY_BASE_URL + process.env.REACT_APP_KINVEY_APP_KEY + "/articles/" + this.props.match.params.id;
+
+        this.get.apply(this, ["/articles", "/" + this.props.match.params.id, undefined, false, this._isMounted, "article"]);
     }
     
     render() {
@@ -41,15 +34,15 @@ export class ArticleDetails extends Component {
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1500} >
-                    <h1 className="details-title font-40 mt-25">{this.state.article.Title}</h1>
+                    <h4 className="details-title font-40 mt-25">{this.state.article.Title}</h4>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
-                    <p className="m-0"> Дата: {this.state.article.Date} / Преглеждания: {this.state.article.views} </p>
+                    <p className="m-0"> <FontAwesomeIcon icon="calendar-alt" />: {this.state.article.Date} / <FontAwesomeIcon icon="eye" />: {this.state.article.views} </p>
                     <hr />
                 </Animated>
                 <Animated animationIn="fadeInLeft" animationInDelay={1500} >
                     <div className="mt-50">
-                        <div className="details-content w-70 text-start mx-10-auto font-20" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
+                        <div className="details-content w-70 text-start mx-10-auto" dangerouslySetInnerHTML={{__html:this.state.article.Content}}>
                             
                         </div>
                     </div>
@@ -62,7 +55,7 @@ export class ArticleDetails extends Component {
                             {shareCount => (    
                                 <div className="text-center">
                                     <FacebookShareButton className="display-inline m-10" url="https://www.facebook.com"><SocialIcon url="https://www.facebook.com/"/></FacebookShareButton>
-                                    <p className="display-inline m-10">Споделяния: {shareCount}</p>
+                                    <p className="display-inline"> Споделания: {shareCount}</p>
                                 </div>
                             )}
                         </FacebookShareCount>

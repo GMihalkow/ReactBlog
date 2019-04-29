@@ -9,8 +9,12 @@ export default class Router extends Component {
     render() {
         return (
             <div>
-                <Route exact path="/" component={IndexPage} />
-                <Route exact path="/articles" component={ArticlesPage} />
+                <Route exact path="/"  render={() => {
+                   return <IndexPage url={this.props.url} auth={this.props.auth}/>
+                }} />
+                <Route exact path="/articles" render={() => {
+                    return <ArticlesPage url={this.props.url} auth={this.props.auth} />
+                }}  />
                 <Route exact path="/about" component={AboutPage} />
                 <Route exact path="/article/:id" component={ArticleDetailsPage} />
             </div>

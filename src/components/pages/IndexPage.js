@@ -1,41 +1,35 @@
 import React, { Component } from 'react';
 import Article from './articles/IndexPartial';
 import LittelArticle from './articles/LatestArticle';
-import { Animated } from "react-animated-css";
+import { Animated } from 'react-animated-css';
 import FbPage from '../partials/FbRefference';
+import RequestModel from '../RequestModel';
 
-class IndexPage extends Component {
-  state = {
-    url: "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles",
-    articles: [],
-    popularArticles:[],
+class IndexPage extends RequestModel {
+  _isMounted = false;
+
+  constructor(props){
+    super(props);
+    
+    this.state = {
+      url: this.props.url + "/articles",
+      articles: [],
+      popularArticles:[],
+    }
+  }
+
+  componentWillUnmount(){
+    this._isMounted = false;
   }
 
   componentDidMount = () => {
-    fetch(encodeURI(this.state.url + '?sort={"entryId":-1}&limit=3'), {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-      }
-    }).then((data) => {
-      return data.json();
-    }).then((articles) => {
-      this.setState({articles: articles});
-    });
+    this._isMounted = true;
 
+    // Fetching the latest articles
+    this.get.apply(this, ["/articles", '?sort={"entryId":-1}&limit=3', undefined, false, this._isMounted, "articles"]);
 
-    fetch(encodeURI(this.state.url + '?sort={"views":-1}&limit=3'), {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-      }
-    }).then((data) => {
-      return data.json();
-    }).then((articles) => {
-      this.setState({popularArticles: articles});
-    });
+    // Fetching the popular articles
+    this.get.apply(this, ["/articles", '?sort={"views":-1}&limit=3', undefined, false, this._isMounted, "popularArticles"]);
 
     setTimeout(() => {
       window.FB.XFBML.parse(document.getElementById("fb-wrapper"));
@@ -50,12 +44,12 @@ class IndexPage extends Component {
             if (index % 2 === 0) {
               return (
                 <Animated key={index} animationIn="fadeInLeft" isVisible={true}>
-                  <Article Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+                  <Article Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
                 </Animated>);
             } else {
               return (
                 <Animated key={index} animationIn="fadeInRight" isVisible={true}>
-                  <Article Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Date={el.Date} Content={el.Content} />
+                  <Article Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
                 </Animated>);
             }
           })}

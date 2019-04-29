@@ -25,7 +25,7 @@ export class DropdownNavBar extends Component {
   render() {
     return (
       <div className="dropdown">
-        <button className="dropbtn"><FontAwesomeIcon id="dropdown-icon" icon="bars" size="3x" /></button>
+        <button className="dropbtn"><FontAwesomeIcon id="dropdown-icon" icon="bars" size="lg" /></button>
         <div className="dropdown-content">
           <Link to="/" className="bold">Начало</Link>
           <Link to="/articles" className="bold">Статии</Link>

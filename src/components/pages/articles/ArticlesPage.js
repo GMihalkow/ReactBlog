@@ -2,12 +2,16 @@ import React, { Component } from '../../../../node_modules/react';
 import { Link } from '../../../../node_modules/react-router-dom';
 import Card from './Card';
 import NotFound from '../../partials/NotFound';
+import Select from '../../partials/SortSelect';
 import { Animated } from "react-animated-css";
 import PropTypes from '../../../../node_modules/prop-types';
 import AppBar from '../../../../node_modules/@material-ui/core/AppBar';
 import Tabs from '../../../../node_modules/@material-ui/core/Tabs';
 import Tab from '../../../../node_modules/@material-ui/core/Tab';
 import Typography from '../../../../node_modules/@material-ui/core/Typography';
+import RequestModel from '../../RequestModel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { O_APPEND } from 'constants';
 
 function TabContainer(props) {
     return (
@@ -20,23 +24,17 @@ function TabContainer(props) {
   TabContainer.propTypes = {
     children: PropTypes.node.isRequired,
   };
-  
-  // const styles = theme => ({
-  //   root: {
-  //     flexGrow: 1,
-  //     backgroundColor: theme.palette.background.paper
-  //   },
-  // });
-  
-  
-export class ArticlesPage extends Component {
+
+export class ArticlesPage extends RequestModel {
+   _isMounted = false;
 
     state = {
         articles: [],
+        defaultMoreBtn: "",
         value: 0,
         sort: undefined,
         parameter: undefined,
-        url: "https://baas.kinvey.com/appdata/kid_HkMAqLj9N/articles",
+        url: this.props.url + "/articles",
         onPageCount: 12,
         page: 1,
         totalArticlesCount: 0,
@@ -49,11 +47,14 @@ export class ArticlesPage extends Component {
           Title: true,
           entryId: true,
           views: true
-        }
+        },
+        oldArticles: []
     };
 
     handleChange = (event, value) => {
-      this.setState({ value });
+      if(this._isMounted){
+        this.setState({ value });
+      }
     };
 
     onChange = () => {
@@ -68,109 +69,95 @@ export class ArticlesPage extends Component {
 
     onClick = () => {
       let skipAmount = Array.from(document.querySelectorAll(".article")).length;
-
+      
       if(this.state.totalArticlesCount > skipAmount){
         this.fetchArticles(this.state.sort, this.state.parameter, skipAmount, true);
       } else {
-        let moreBtn = document.querySelector("#moreBtn");
-        moreBtn.textContent = "Няма повече статии";
+        this.clearButtons();
       }
+    }
+
+    handleNotFound(){
+      let searchText = document.querySelector("#search-box");
+
+      let articles = document.querySelectorAll(".article");
+
+      let notFound = document.querySelector("#not-found");
+      
+      if(searchText && articles){
+        if(searchText.value.length > 0){
+          if(articles.length === 0){
+            if(notFound){
+              notFound.style.display = "block";
+            }
+          } else {
+            if(notFound){
+              notFound.style.display = "none";
+            }
+          }
+        }
+      }
+    }
+
+    clearButtons(){
+      let articles = document.querySelectorAll(".article");
+
+      let moreBtn = document.querySelector("#moreBtn");
+      let noMoreBtn = document.querySelector("#noMoreBtn");
+
+      if(articles.length === 0){
+        if(moreBtn){
+          moreBtn.style.display = "none";
+        } 
+        
+        if(noMoreBtn){
+          noMoreBtn.style.display = "block";
+        } 
+
+      } else {
+        if(moreBtn){
+          moreBtn.style.display = "block";
+        } 
+
+        if(noMoreBtn){
+          noMoreBtn.style.display = "none";
+        } 
+
+      }
+    }
+
+    componentWillUnmount(){
+      this._isMounted = false;
     }
 
     fetchArticles(sort, parameter, skipAmount, append) {
-      let oldArticles = this.state.articles;
-      this.setState({articles: []});
+      if(this._isMounted){
+        this.setState({oldArticles: this.state.articles});
+        this.setState({articles: []});  
+      }
 
-      let searchText = document.querySelector("#search-box").value;
-      let baseUrl = encodeURI(this.state.url + '?limit=' + this.state.onPageCount + '&skip=' + skipAmount);
-      
-      if(searchText.length !== 0){
-        baseUrl = baseUrl + ('&query={"Title":{"$regex":"^' + searchText + '"} }');
-      } 
+      document.querySelector("#search-box").value = "";
+      let queryString = '?limit=' + this.state.onPageCount + '&skip=' + skipAmount;
 
       if(sort !== undefined && parameter !== undefined){
         if(sort === "asc"){
-          baseUrl = (baseUrl + '&sort={"' + parameter + '":1}');
+          queryString += '&sort={"' + parameter + '":1}';
         } else if(sort === "desc"){
-          baseUrl = (baseUrl + '&sort={"' + parameter + '":-1}');
+          queryString += '&sort={"' + parameter + '":-1}';
         }
       }
 
-      fetch(baseUrl, {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-        }
-      }).then((data) => {
-        return data.json();
-      }).then((articles) => {
-        if(parameter === "Date"){
-          if(append){
-            let newArticles = articles;
-
-            this.setState({articles: oldArticles.concat(newArticles)});   
-          } else{
-            let notFound = document.querySelector("#not-found");
-            let moreBtn = document.querySelector("#moreBtn");
-
-            if(articles.length === 0){
-              moreBtn.style.display = "none";
-              notFound.style.display = "block";
-            } else {
-              moreBtn.style.display = "block";
-              notFound.style.display = "none";
-            }
-            this.setState({articles: articles});
-          }
-        } else {
-          if(append){
-            let newArticles = articles;
-
-            this.setState({articles: oldArticles.concat(newArticles)});   
-          } else {
-            let notFound = document.querySelector("#not-found");
-            let moreBtn = document.querySelector("#moreBtn");
-
-            if(articles.length === 0){
-              if(moreBtn){
-                moreBtn.style.display = "none";
-              } 
-              if(notFound){
-                notFound.style.display = "block";
-              }
-            } else {
-              if(moreBtn){
-                moreBtn.style.display = "block";
-              } 
-              if(notFound){
-                notFound.style.display = "none";
-              }
-            }
-
-            this.setState({articles: articles});
-          }
-        }
-      });
-      
+      this.get.apply(this, ["/articles", queryString, undefined, append, "articles"]);
     }
 
-    fetchArticlesCount(){
-      fetch(this.state.url + "/_count", {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-        }
-      }).then((data) => {
-        return data.json();
-      }).then((data) => {
-        this.setState({totalArticlesCount: data.count});
-      });
+    fetchArticlesCount() {
+      this.get.apply(this, ["/articles", "/_count", undefined, false, this._isMounted, "totalArticlesCount"]);
     }
 
     onSearch = () => {
-      this.setState({articles: []});
+      if(this._isMounted){
+        this.setState({articles: []});
+      }
 
       document.querySelector("#moreBtn").textContent = "Още статии";  
       let searchText = document.querySelector("#search-box").value;
@@ -181,51 +168,29 @@ export class ArticlesPage extends Component {
       if(searchText.length === 0){
         this.fetchArticles(this.state.sort, this.state.perameter, 0);
       } else {
-        fetch(encodeURI(this.state.url + '?query={"Title":{"$regex":"^' + searchText + '"} }'), {
-          method: "GET", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Basic a2lkX0hrTUFxTGo5TjpmNzE2ZjcxZThkNjk0OTIwYWUzZDQ5MGU5NDEwMTJjZQ=="
-          }
-        }).then((data) => {
-          return data.json();
-        }).then((articles) => {
-          let notFound = document.querySelector("#not-found");
-          let moreBtn = document.querySelector("#moreBtn");
-
-          if(articles.length === 0){
-            if(moreBtn){
-              moreBtn.style.display = "none";
-            } 
-            if(notFound){
-              notFound.style.display = "block";
-            }
-          } else {
-            if(moreBtn){
-              moreBtn.style.display = "block";
-            } 
-            if(notFound){
-              notFound.style.display = "none";
-            }
-          }
-
-          this.setState({articles: articles});
-        });
+        this.get.apply(this, ["/articles", '?query={"Title":{"$regex":"^' + searchText + '"} }', undefined, false, this._isMounted, "articles"]);
       }
     }
 
     componentDidMount() {
+      this._isMounted = true;
+
       // Initial loading of the articles
       this.fetchArticles(this.state.sort, this.state.perameter, 0);
 
       // Getting the count of the articles
       this.fetchArticlesCount();
 
+      let callback = this.clearButtons;
+      let notFound = this.handleNotFound;
+
       document.addEventListener('fetchStart', function() {
-        let moreBtn = document.querySelector("#moreBtn");
-        if(moreBtn){
-          moreBtn.style.display = "none";
-        }
+        callback();
+      });
+
+      document.addEventListener('fetchEnd', function() {
+        callback();
+        notFound();
       });
     }
 
@@ -244,30 +209,23 @@ export class ArticlesPage extends Component {
             {value === 0 && 
               <TabContainer>
             <Animated animationIn="fadeIn">
-            <div className="equal-shared-grid mx-auto w-70">
-              <div className="text-start mx-10-auto p-10">
-                <select id="sort-criteria" className="responsive-input custom-select font-16" onChange={this.onChange}>
-                  <option className="text-center">Сортирай</option>
-                  <option value="entryId:asc" >По дата възходящо</option>
-                  <option value="Title:asc">По име възходящо</option>
-                  <option value="entryId:desc">По дата низходящо</option>
-                  <option value="Title:desc">По име низходящо</option>
-                  <option value="views:asc">По преглеждания възходящо</option>
-                  <option value="views:desc">По преглеждания низходящо</option>
-                </select>
+              <div className="equal-shared-grid mx-auto w-70">
+                <Select onChange={this.onChange.bind(this)}/>
+                <div className="mx-10-auto p-10">
+                <input id="search-box" onKeyUp={this.onSearch} className="responsive-input custom-select font-16" placeholder="Търси по име..."/>
               </div>
-              <div className="mx-10-auto p-10">
-              <input id="search-box" onKeyUp={this.onSearch} className="responsive-input custom-select font-16" placeholder="Търси по име..."/>
-            </div>
-            </div>
-              <NotFound />
-              <div className="four-fragments-grid">
-              {Array.from(this.state.articles).map((art) => {
-                let toRoute = "/article/" + art._id;
-                return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
-              })} 
               </div>
-              <span onClick={this.onClick} id="moreBtn" className="moreBtn mt-25 display-block" >Още статии</span>
+                <NotFound />
+                <div className="four-fragments-grid">
+                  {Array.from(this.state.articles).map((art) => {
+                    if(art._id && art.Author && art.Title && art.Cover && art.Content && art.views && art.Date){
+                      let toRoute = "/article/" + art._id;
+                      return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
+                    }
+                  })} 
+              </div>
+              <span onClick={this.onClick} id="moreBtn" className="moreBtn text-nav mt-25 display-block" ><FontAwesomeIcon icon="chevron-circle-down" size="3x" /></span>
+              <span onClick={this.onClick} id="noMoreBtn" className="text-dark-red display-block noMoreBtn mt-25 display-block" ><FontAwesomeIcon icon="times-circle" size="3x" /></span>
             </Animated>
           </TabContainer>}
           </div>

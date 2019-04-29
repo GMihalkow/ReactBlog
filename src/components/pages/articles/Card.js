@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class ArticleCard extends Component {
   render() {
@@ -22,10 +23,10 @@ export class ArticleCard extends Component {
                         {this.props.title}
                     </Typography>
                     <Typography className="m-0" gutterBottom variant="body1" component="p">
-                        Дата: {this.props.date}
+                        <FontAwesomeIcon icon="calendar-alt" /> {this.props.date}
                     </Typography>
                     <Typography className="m-0" gutterBottom variant="body1" component="p">
-                        Преглеждания: {this.props.views}
+                        <FontAwesomeIcon icon="eye" /> {this.props.views}
                     </Typography>
                 </CardContent>
             </CardActionArea>
