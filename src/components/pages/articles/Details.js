@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FacebookShareButton } from 'react-share';
 import { FacebookShareCount } from 'react-share';
@@ -34,7 +34,7 @@ export class ArticleDetails extends RequestModel {
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1500} >
-                    <h4 className="details-title font-40 mt-25">{this.state.article.Title}</h4>
+                    <h6 className="details-title mt-25">{this.state.article.Title}</h6>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
                     <p className="m-0"> <FontAwesomeIcon icon="calendar-alt" />: {this.state.article.Date} / <FontAwesomeIcon icon="eye" />: {this.state.article.views} </p>

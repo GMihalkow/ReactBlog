@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Article from './articles/IndexPartial';
 import LittelArticle from './articles/LatestArticle';
 import { Animated } from 'react-animated-css';
@@ -10,12 +10,12 @@ class IndexPage extends RequestModel {
 
   constructor(props){
     super(props);
-    
+
     this.state = {
       url: this.props.url + "/articles",
       articles: [],
       popularArticles:[],
-    }
+    }    
   }
 
   componentWillUnmount(){
@@ -61,7 +61,7 @@ class IndexPage extends RequestModel {
           </Animated>
           </div>
           <Animated animationIn="fadeInRight" isVisible={true}>
-            <div className="mt-50">
+            <div id="popular-articles" className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto">Популярни статии</h2>
               {this.state.popularArticles.map((el, index) => {
                 return <LittelArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />

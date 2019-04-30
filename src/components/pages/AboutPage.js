@@ -13,10 +13,7 @@ export class AboutPage extends Component {
         <Animated animationIn="zoomIn">
             <div className="about-content text-start mt-25 p-10 font-16">
                 <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                Здравейте, скъпи читатели. Казвам се Илиана Симеонова. Завършила съм Езикова гимназия "Д-р Петър Берон" - гр. Кюстендил и по настоящем съм студентка в Софийския университет "Св. Климент Охридски" в специалност "Връзки с обществеността". Обожавам да пиша статии и да размишлявам по тайните на живота. Пиша проза и поезия от 8-годишна. Няма по-голямо удоволствие за мен от това читателите да оценяват труда ми. В този Блог ще видиш размисли и страсти по различни теми, които засягат нас, младите хора и голяма част от обществото. Благодаря ти, че си тук, читателю. Обещавам ти, че няма да те разочаровам. Приятно четене. 
                 </p>
             </div>
         </Animated>

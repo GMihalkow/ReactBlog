@@ -1,4 +1,4 @@
-import React, { Component } from '../../../../node_modules/react';
+import React from '../../../../node_modules/react';
 import { Link } from '../../../../node_modules/react-router-dom';
 import Card from './Card';
 import NotFound from '../../partials/NotFound';
@@ -11,7 +11,6 @@ import Tab from '../../../../node_modules/@material-ui/core/Tab';
 import Typography from '../../../../node_modules/@material-ui/core/Typography';
 import RequestModel from '../../RequestModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { O_APPEND } from 'constants';
 
 function TabContainer(props) {
     return (
@@ -28,28 +27,32 @@ function TabContainer(props) {
 export class ArticlesPage extends RequestModel {
    _isMounted = false;
 
-    state = {
-        articles: [],
-        defaultMoreBtn: "",
-        value: 0,
-        sort: undefined,
-        parameter: undefined,
-        url: this.props.url + "/articles",
-        onPageCount: 12,
-        page: 1,
-        totalArticlesCount: 0,
-        skippedArticles: 0,
-        validSortTypes: {
-          asc: true,
-          desc: true
-        },
-        validParameterTypes: {
-          Title: true,
-          entryId: true,
-          views: true
-        },
-        oldArticles: []
-    };
+    constructor(props){
+      super(props);
+      
+      this.state = {
+          articles: [],
+          defaultMoreBtn: "",
+          value: 0,
+          sort: undefined,
+          parameter: undefined,
+          url: this.props.url + "/articles",
+          onPageCount: 12,
+          page: 1,
+          totalArticlesCount: 0,
+          skippedArticles: 0,
+          validSortTypes: {
+            asc: true,
+            desc: true
+          },
+          validParameterTypes: {
+            Title: true,
+            entryId: true,
+            views: true
+          },
+          oldArticles: []
+      };
+    }
 
     handleChange = (event, value) => {
       if(this._isMounted){
@@ -58,7 +61,17 @@ export class ArticlesPage extends RequestModel {
     };
 
     onChange = () => {
-      document.querySelector("#moreBtn").textContent = "Още статии";
+      let moreBtn = document.querySelector("#moreBtn");
+      let noMoreBtn = document.querySelector("#noMoreBtn");
+
+      if(moreBtn){
+        moreBtn.style.display = "block";
+      } 
+      
+      if(noMoreBtn){
+        noMoreBtn.style.display = "none";
+      } 
+
       let criterias = document.getElementById("sort-criteria").value.split(":");
 
       let sort = criterias[1];
@@ -73,7 +86,16 @@ export class ArticlesPage extends RequestModel {
       if(this.state.totalArticlesCount > skipAmount){
         this.fetchArticles(this.state.sort, this.state.parameter, skipAmount, true);
       } else {
-        this.clearButtons();
+        let moreBtn = document.querySelector("#moreBtn");
+        let noMoreBtn = document.querySelector("#noMoreBtn");
+  
+        if(moreBtn){
+          moreBtn.style.display = "none";
+        } 
+        
+        if(noMoreBtn){
+          noMoreBtn.style.display = "block";
+        } 
       }
     }
 
@@ -133,11 +155,15 @@ export class ArticlesPage extends RequestModel {
     fetchArticles(sort, parameter, skipAmount, append) {
       if(this._isMounted){
         this.setState({oldArticles: this.state.articles});
-        this.setState({articles: []});  
+        this.setState({articles: []});
       }
 
-      document.querySelector("#search-box").value = "";
       let queryString = '?limit=' + this.state.onPageCount + '&skip=' + skipAmount;
+
+      let searchText = document.querySelector("#search-box").value;
+      if(searchText.length > 0){
+        queryString += '&query={"Title":{"$regex":"^' + searchText + '"} }';
+      }
 
       if(sort !== undefined && parameter !== undefined){
         if(sort === "asc"){
@@ -147,7 +173,7 @@ export class ArticlesPage extends RequestModel {
         }
       }
 
-      this.get.apply(this, ["/articles", queryString, undefined, append, "articles"]);
+      this.get.apply(this, ["/articles", queryString, undefined, append, this._isMounted, "articles"]);
     }
 
     fetchArticlesCount() {
@@ -159,16 +185,31 @@ export class ArticlesPage extends RequestModel {
         this.setState({articles: []});
       }
 
-      document.querySelector("#moreBtn").textContent = "Още статии";  
+      let moreBtn = document.querySelector("#moreBtn");
+      let noMoreBtn = document.querySelector("#noMoreBtn");
+
+      if(noMoreBtn){
+        noMoreBtn.style.display = "none";
+      }
+      if(moreBtn){
+        moreBtn.style.display = "block";
+      }
+
       let searchText = document.querySelector("#search-box").value;
       
       let selectCriteria = document.querySelector("#sort-criteria");
       selectCriteria.selectedIndex = 0;
 
       if(searchText.length === 0){
+        let notFound = document.querySelector("#not-found");
+      
+        if(notFound){
+          notFound.style.display = "none";
+        } 
+          
         this.fetchArticles(this.state.sort, this.state.perameter, 0);
       } else {
-        this.get.apply(this, ["/articles", '?query={"Title":{"$regex":"^' + searchText + '"} }', undefined, false, this._isMounted, "articles"]);
+        this.get.apply(this, ["/articles", '?query={"Title":{"$regex":"^' + searchText + '"} }', this.handleNotFound.bind(this), false, this._isMounted, "articles"]);
       }
     }
 
@@ -182,7 +223,6 @@ export class ArticlesPage extends RequestModel {
       this.fetchArticlesCount();
 
       let callback = this.clearButtons;
-      let notFound = this.handleNotFound;
 
       document.addEventListener('fetchStart', function() {
         callback();
@@ -190,7 +230,6 @@ export class ArticlesPage extends RequestModel {
 
       document.addEventListener('fetchEnd', function() {
         callback();
-        notFound();
       });
     }
 
@@ -218,10 +257,8 @@ export class ArticlesPage extends RequestModel {
                 <NotFound />
                 <div className="four-fragments-grid">
                   {Array.from(this.state.articles).map((art) => {
-                    if(art._id && art.Author && art.Title && art.Cover && art.Content && art.views && art.Date){
-                      let toRoute = "/article/" + art._id;
-                      return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
-                    }
+                    let toRoute = "/article/" + art._id;
+                    return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
                   })} 
               </div>
               <span onClick={this.onClick} id="moreBtn" className="moreBtn text-nav mt-25 display-block" ><FontAwesomeIcon icon="chevron-circle-down" size="3x" /></span>

@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class RequestModel extends Component {
+    _isMounted = false;
 
-    constructor(props){
-        super(props);
+    componentWillUnmount(){
+        this._isMounted = false;
+    }    
 
-        this.state = {}
+    componentDidMount(){
+        this._isMounted = true;
     }
 
     get(path, queryParameters, callback, append, isMounted, propertyToSet) {
@@ -15,7 +18,6 @@ class RequestModel extends Component {
             path + 
             queryParameters;
         
-        if(isMounted){
             fetch(encodeURI(url), {
                 method: "GET",
                 headers: {
@@ -25,98 +27,96 @@ class RequestModel extends Component {
             })
             .then((res) => res.json())
             .then((result) => {
-                if(Array.isArray(result)){
-                    let tempResult = Array.from(result).filter((el) => {
-                        if(el._id && el.Author && el.Title && el.Cover && el.Content && el.Date && el.views){
-                            return true;
-                        }
-
-                        return false;
-                    });
-                    
-                    if(append){
-                        let newArticles = tempResult;
-            
-                        this.setState({articles: this.state.oldArticles.concat(newArticles)});   
-                        
-                        let noMoreBtn = document.querySelector("#noMoreBtn");
-                        let moreBtn = document.querySelector("#moreBtn");
-                        
-                        if(moreBtn && noMoreBtn){
-                            if(tempResult.length === 0){
-                                moreBtn.style.display = "none";
-                                noMoreBtn.style.display = "block";
-                            } else {
-                                moreBtn.style.display = "block";
-                                noMoreBtn.style.display = "none";
+                if(this._isMounted){
+                    if(Array.isArray(result)){
+                        let tempResult = Array.from(result).filter((el) => {
+                            if(el._id && el.Author && el.Title && el.Cover && el.Content && el.Date && el.views){
+                                return true;
                             }
-                        }
 
-                    } else {
-                        let noMoreBtn = document.querySelector("#noMoreBtn");
-                        let moreBtn = document.querySelector("#moreBtn");
+                            return false;
+                        });
                         
-                        if(moreBtn && noMoreBtn){
-                            if(tempResult.length === 0){
-                                moreBtn.style.display = "none";
-                                noMoreBtn.style.display = "block";
-                            } else {
-                                moreBtn.style.display = "block";
-                                noMoreBtn.style.display = "none";
+                        if(append){
+                            let newArticles = tempResult;
+                            
+                            this.setState({articles: this.state.oldArticles.concat(newArticles)});   
+                            
+                            let noMoreBtn = document.querySelector("#noMoreBtn");
+                            let moreBtn = document.querySelector("#moreBtn");
+                            
+                            if(moreBtn && noMoreBtn){
+                                if(tempResult.length === 0){
+                                    moreBtn.style.display = "none";
+                                    noMoreBtn.style.display = "block";
+                                } else {
+                                    moreBtn.style.display = "block";
+                                    noMoreBtn.style.display = "none";
+                                }
                             }
-                        }
-                        
-                        this.setState({articles: tempResult});
-                    }
-                    
-                    this.setState({[propertyToSet]: tempResult});
-                } else if(typeof(result) === "object") {
-                    let isValid = Object.keys(result).some((el) => {
-                        if(result[el]){
-                            return true;
-                        }
-                        return false;
-                    });
-                    
-                    if(isValid || result.count){
-                        if(result.count){
-                            this.setState({[propertyToSet]: result.count});
+
                         } else {
-                            this.incrementViews(path, queryParameters, result, callback, append, isMounted, propertyToSet);
+                            let noMoreBtn = document.querySelector("#noMoreBtn");
+                            let moreBtn = document.querySelector("#moreBtn");
+                            
+                            if(moreBtn && noMoreBtn){
+                                if(tempResult.length === 0){
+                                    moreBtn.style.display = "none";
+                                    noMoreBtn.style.display = "block";
+                                } else {
+                                    moreBtn.style.display = "block";
+                                    noMoreBtn.style.display = "none";
+                                }
+                            }
+                            this.setState({[propertyToSet]: tempResult});
                         }
+                        
+                        if (callback) callback();
+                    } else if(typeof(result) === "object") {
+                        let isValid = Object.keys(result).some((el) => {
+                            if(result[el]){
+                                return true;
+                            }
+                            return false;
+                        });
+                        
+                        if(isValid || result.count){
+                            if(result.count){
+                                this.setState({[propertyToSet]: result.count});
+                            } else {
+                                this.incrementViews(path, queryParameters, result, callback, append, isMounted, propertyToSet);
+                            }
+                        }
+                    } else {
+                        this.setState({[propertyToSet]: result});
                     }
-                } else {
-                    this.setState({[propertyToSet]: result});
                 }
-
-                if (callback) callback();
             });
         }
-    }
 
     incrementViews(path, queryParameters, body, callback, append, isMounted, propertyToSet) {
         
-        if(isMounted){
-            let url = 
-                process.env.REACT_APP_KINVEY_BASE_URL + 
-                process.env.REACT_APP_KINVEY_APP_KEY + 
-                path + 
-                queryParameters;
+        let url = 
+            process.env.REACT_APP_KINVEY_BASE_URL + 
+            process.env.REACT_APP_KINVEY_APP_KEY + 
+            path + 
+            queryParameters;
 
-            body.views++;
-            
-            fetch(encodeURI(url), {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": process.env.REACT_APP_KINVEY_APP_AUTHORIZATION
-                },
-                body: JSON.stringify(body)
-            }).then((res) => res.json())
-            .then(() => {    
+        body.views++;
+        
+        fetch(encodeURI(url), {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": process.env.REACT_APP_KINVEY_APP_AUTHORIZATION
+            },
+            body: JSON.stringify(body)
+        }).then((res) => res.json())
+        .then(() => {    
+            if(this._isMounted){
                 this.setState({[propertyToSet]: body});
-            });
-        }
+            }
+        });
     }
 }
 
