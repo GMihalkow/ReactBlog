@@ -54,7 +54,8 @@ class RequestModel extends Component {
                                     noMoreBtn.style.display = "none";
                                 }
                             }
-
+                            
+                            window.scrollTo(0,document.body.scrollHeight);
                         } else {
                             let noMoreBtn = document.querySelector("#noMoreBtn");
                             let moreBtn = document.querySelector("#moreBtn");

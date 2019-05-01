@@ -11,9 +11,8 @@ function Banner() {
                <div id="banner-wrapper" className="equal-shared-grid mx-auto">
                     <div>
                         <h1 id="mainHeading" className="m-0 display-inline text-start p-20 raise-main-heading">
-                        <span >Iliana'sBlog
-                        <FontAwesomeIcon icon="book-open" />
-                        </span>
+                            IlianaBlog
+                            <FontAwesomeIcon icon="book-open" />    
                         </h1>
                     </div>
                     <nav id="nav-section" className="position-relative">

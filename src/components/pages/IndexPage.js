@@ -1,6 +1,6 @@
 import React from 'react';
 import Article from './articles/IndexPartial';
-import LittelArticle from './articles/LatestArticle';
+import PopularArticle from './articles/PopularArticle';
 import { Animated } from 'react-animated-css';
 import FbPage from '../partials/FbRefference';
 import RequestModel from '../RequestModel';
@@ -64,7 +64,7 @@ class IndexPage extends RequestModel {
             <div id="popular-articles" className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto">Популярни статии</h2>
               {this.state.popularArticles.map((el, index) => {
-                return <LittelArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
+                return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
             </div>
           </Animated>

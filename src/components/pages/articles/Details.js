@@ -24,8 +24,6 @@ export class ArticleDetails extends RequestModel {
     componentDidMount(){
         this._isMounted = true;
 
-        let url = process.env.REACT_APP_KINVEY_BASE_URL + process.env.REACT_APP_KINVEY_APP_KEY + "/articles/" + this.props.match.params.id;
-
         this.get.apply(this, ["/articles", "/" + this.props.match.params.id, undefined, false, this._isMounted, "article"]);
     }
     
@@ -34,7 +32,7 @@ export class ArticleDetails extends RequestModel {
         return (
             <article id="article" className="text-center mx-10-auto p-10 w-70">
                 <Animated animationIn="fadeInRight" animationInDelay={1500} >
-                    <h6 className="details-title mt-25">{this.state.article.Title}</h6>
+                    <h2 className="details-title mt-25">{this.state.article.Title}</h2>
                 </Animated>
                 <Animated animationIn="fadeIn" animationInDelay={1500}>
                     <p className="m-0"> <FontAwesomeIcon icon="calendar-alt" />: {this.state.article.Date} / <FontAwesomeIcon icon="eye" />: {this.state.article.views} </p>
