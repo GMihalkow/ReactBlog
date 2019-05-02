@@ -39,7 +39,12 @@ button {
   cursor: pointer;
 }
 
+.font-60{
+ font-size: 60px; 
+}
+
 #mainHeading{
+  /* font-size: 60px; */
   cursor: pointer;
 }
 
@@ -90,7 +95,7 @@ text-align: center;
 
 .banner{
 color:white;
-font-size: 30px;
+/* font-size: 30px; */
 }
 
   .text-nav{
@@ -482,6 +487,24 @@ img{
 }
 
 @media screen and (max-width: 850px) {
+  
+  #nav-section{
+    width:100%;
+    text-align: start;
+  }
+
+  .dropdown{
+    display:block;
+  }
+
+  #navigation{
+    display:none;
+  }
+  
+  .banner{
+    display:none;
+  }
+
   #about-me-heading{
     text-align: center;
   }
@@ -513,10 +536,6 @@ img{
 }
 
 @media screen and (max-width: 790px) {
-    
-  #nav-section{
-    text-align: end;
-  }
 
   #little-heading{
     display:block;
@@ -526,13 +545,6 @@ img{
     display:none;
   }
 
-  .dropdown{
-    display:block;
-  }
-
-  #navigation{
-    display:none;
-  }
 }
 
 @media screen and (max-width: 690px) {

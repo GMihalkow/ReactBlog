@@ -38,8 +38,8 @@ class IndexPage extends RequestModel {
 
   render() {
     return (
-      <div id="main" className="three-to-one-grid w-70 mx-auto">
-        <div className="m-20">
+      <section id="main" className="three-to-one-grid w-70 mx-auto">
+        <section className="m-20">
           {this.state.articles.slice(0, 3).map((el, index) => {
             if (index % 2 === 0) {
               return (
@@ -53,23 +53,23 @@ class IndexPage extends RequestModel {
                 </Animated>);
             }
           })}
-        </div>
-        <div className="text-center mt-25 p-10">
-          <div id="fb-wrapper">
+        </section>
+        <section className="text-center mt-25 p-10">
+          <section id="fb-wrapper">
           <Animated animationIn="fadeInRight" isVisible={true}>
             <FbPage />
           </Animated>
-          </div>
+          </section>
           <Animated animationIn="fadeInRight" isVisible={true}>
-            <div id="popular-articles" className="mt-50">
+            <aside id="popular-articles" className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto">Популярни статии</h2>
               {this.state.popularArticles.map((el, index) => {
                 return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
-            </div>
+            </aside>
           </Animated>
-        </div>
-      </div>
+        </section>
+      </section>
     )
   }
 }

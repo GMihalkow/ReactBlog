@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { HashRouter as Router} from 'react-router-dom';
 import Banner from './components/partials/Banner';
 import RouterComponent from './components/partials/Router';
 import Footer from './components/partials/Footer';
 import Loading from './components/partials/Loading';
+import Nav from './components/partials/Navbar';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBookOpen, faTimesCircle, faBars, faEye, faCalendarAlt, faShareAlt, faChevronCircleDown  } from '@fortawesome/free-solid-svg-icons';
 
@@ -63,16 +64,16 @@ class App extends Component {
   }
 
   render() {
-
     return (
-      <Router>
-      <div className="App">
-        <Banner/>
-        <Footer/> 
-        <RouterComponent url={this.state.url} auth={this.state.auth}/>
-        <Loading />
-      </div>
-      </Router>
+      <Router basename="/"> 
+        <div className="App">
+          <Banner/>
+          <Nav />
+          <Footer/> 
+          <RouterComponent url={this.state.url} auth={this.state.auth}/>
+          <Loading />
+        </div>
+      </Router> 
     );
   }
 

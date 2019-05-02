@@ -236,7 +236,7 @@ export class ArticlesPage extends RequestModel {
     render() {
       const { value } = this.state;
       return (
-          <div id="articles" className="w-70 mx-10-auto text-center">
+          <section id="articles" className="w-70 mx-10-auto text-center">
               <AppBar position="static" className="mt-50" color="inherit">
                   <Tabs 
                       value={value} 
@@ -248,24 +248,26 @@ export class ArticlesPage extends RequestModel {
             {value === 0 && 
               <TabContainer>
             <Animated animationIn="fadeIn">
-              <div className="equal-shared-grid mx-auto w-70">
+              <section className="equal-shared-grid mx-auto w-70">
                 <Select onChange={this.onChange.bind(this)}/>
-                <div className="mx-10-auto p-10">
+                <section className="mx-10-auto p-10">
                 <input id="search-box" onKeyUp={this.onSearch} className="responsive-input custom-select font-16" placeholder="Търси по име..."/>
-              </div>
-              </div>
+              </section>
+              </section>
                 <NotFound />
-                <div className="four-fragments-grid">
+              <section className="four-fragments-grid">
                   {Array.from(this.state.articles).map((art) => {
-                    let toRoute = "/article/" + art._id;
-                    return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 10) + "..."}/></Link>);
+                    let editedTitle = art.Title.replace(/[-?.!,]+/g, "").replace(/\s+/g, "-");
+
+                    let toRoute = "/article/" + art._id + "&" + editedTitle;
+                    return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 20) + "..."}/></Link>);
                   })} 
-              </div>
-              <span onClick={this.onClick} id="moreBtn" className="moreBtn text-nav mt-25 display-block" ><FontAwesomeIcon icon="chevron-circle-down" size="3x" /></span>
-              <span onClick={this.onClick} id="noMoreBtn" className="text-dark-red display-block noMoreBtn mt-25 display-block" ><FontAwesomeIcon icon="times-circle" size="3x" /></span>
+              </section>
+              <FontAwesomeIcon onClick={this.onClick} id="moreBtn" className="moreBtn text-nav mx-auto mt-25 display-block"  icon="chevron-circle-down" size="3x" />
+              <FontAwesomeIcon onClick={this.onClick} id="noMoreBtn" className="text-dark-red mx-auto display-block noMoreBtn mt-25 display-block"  icon="times-circle" size="3x" />
             </Animated>
           </TabContainer>}
-          </div>
+          </section>
     )
   }
 }

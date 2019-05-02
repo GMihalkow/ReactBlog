@@ -11,16 +11,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export class ArticleCard extends Component {
   render() {
     return (
-        <Card className="m-10 zoom-element article">
+        <Card className="m-10 zoom-element article" variant="article" component="article">
             <CardActionArea>
                 <CardMedia
                 className="card-image"
                 image={this.props.cover}
                 title="Article cover"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h6" component="h6">
-                        {this.props.title}
+                variant="article"
+                component="article"/>
+                <CardContent variant="section" component="section">
+                    <Typography gutterBottom variant="header" component="header">
+                        <h2 className="text-black font-16 m-0 p-10">{this.props.title}</h2>
                     </Typography>
                     <Typography className="m-0" gutterBottom variant="body1" component="p">
                         <FontAwesomeIcon icon="calendar-alt" /> {this.props.date}
@@ -30,11 +31,6 @@ export class ArticleCard extends Component {
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                Научи повече
-                </Button>
-            </CardActions>
         </Card>
     )
   }

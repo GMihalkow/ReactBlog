@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function Loading() {
   return (
-    <div id="loader" className="text-center">
-        <div className="loader"></div>
+    <section id="loader" className="text-center">
+        <section className="loader"></section>
         Зареждане...
-    </div>
+    </section>
   )
 }
