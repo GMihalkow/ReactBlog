@@ -488,6 +488,16 @@ img{
 
 @media screen and (max-width: 850px) {
   
+  #popular-articles{
+    width: 70%;
+    margin: 40px auto;
+  }
+  
+  #latest-articles{
+    width: 70%;
+    margin: 40px auto;
+  }
+
   #nav-section{
     width:100%;
     text-align: start;
@@ -548,10 +558,6 @@ img{
 }
 
 @media screen and (max-width: 690px) {
-  #popular-articles{
-    width: 70%;
-    margin: 40px auto;
-  }
   
   .about-content{
     padding: 10px;

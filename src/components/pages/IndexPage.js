@@ -14,7 +14,8 @@ class IndexPage extends RequestModel {
     this.state = {
       url: this.props.url + "/articles",
       articles: [],
-      popularArticles:[],
+      latestArticles: [],
+      popularArticles: [] 
     }    
   }
 
@@ -29,7 +30,10 @@ class IndexPage extends RequestModel {
     this.get.apply(this, ["/articles", '?sort={"entryId":-1}&limit=3', undefined, false, this._isMounted, "articles"]);
 
     // Fetching the popular articles
-    this.get.apply(this, ["/articles", '?sort={"views":-1}&limit=3', undefined, false, this._isMounted, "popularArticles"]);
+    this.get.apply(this, ["/articles", '?sort={"views":-1}&limit=5', undefined, false, this._isMounted, "popularArticles"]);
+
+    // Fetching the latest articles
+    this.get.apply(this, ["/articles", '?sort={"entryId":-1}&limit=5', undefined, false, this._isMounted, "latestArticles"]);
 
     setTimeout(() => {
       window.FB.XFBML.parse(document.getElementById("fb-wrapper"));
@@ -44,7 +48,7 @@ class IndexPage extends RequestModel {
             if (index % 2 === 0) {
               return (
                 <Animated key={index} animationIn="fadeInLeft" isVisible={true}>
-                  <Article Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
+                  <Article  Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
                 </Animated>);
             } else {
               return (
@@ -54,21 +58,27 @@ class IndexPage extends RequestModel {
             }
           })}
         </section>
-        <section className="text-center mt-25 p-10">
+        <aside className="text-center mt-25 p-10">
           <section id="fb-wrapper">
           <Animated animationIn="fadeInRight" isVisible={true}>
             <FbPage />
           </Animated>
           </section>
           <Animated animationIn="fadeInRight" isVisible={true}>
-            <aside id="popular-articles" className="mt-50">
-              <h2 className="bg-nav w-100 text-white mx-auto">Популярни статии</h2>
+            <section id="popular-articles" className="mt-50">
+              <h2 className="bg-nav w-100 text-white mx-auto">Най-четени</h2>
               {this.state.popularArticles.map((el, index) => {
                 return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
-            </aside>
+            </section>
+            <section id="latest-articles" className="mt-50">
+              <h2 className="bg-nav w-100 text-white mx-auto">Най-нови</h2>
+              {this.state.latestArticles.map((el, index) => {
+                  return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
+              })}
+            </section>
           </Animated>
-        </section>
+        </aside>
       </section>
     )
   }

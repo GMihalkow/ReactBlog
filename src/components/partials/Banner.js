@@ -8,7 +8,7 @@ function Banner() {
             <Animated animationIn="zoomIn" animationOut="fadeOut" isVisible={true}>
                <section id="banner-wrapper" className="w-70 mx-auto">
                     <h1 id="mainHeading" className="m-0 display-inline text-start p-20 font-60 raise-main-heading">
-                        IlianaBlog<FontAwesomeIcon icon="book-open" />    
+                        Блог<FontAwesomeIcon icon="book-open" />    
                     </h1>
                </section>
             </Animated>

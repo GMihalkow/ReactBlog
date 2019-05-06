@@ -12,18 +12,6 @@ import Typography from '../../../../node_modules/@material-ui/core/Typography';
 import RequestModel from '../../RequestModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function TabContainer(props) {
-    return (
-      <Typography component="div" style={{ padding: 10 }}>
-        {props.children}
-      </Typography>
-    );
-  }
-  
-  TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
-
 export class ArticlesPage extends RequestModel {
    _isMounted = false;
 
@@ -53,12 +41,6 @@ export class ArticlesPage extends RequestModel {
           oldArticles: []
       };
     }
-
-    handleChange = (event, value) => {
-      if(this._isMounted){
-        this.setState({ value });
-      }
-    };
 
     onChange = () => {
       let moreBtn = document.querySelector("#moreBtn");
@@ -234,19 +216,9 @@ export class ArticlesPage extends RequestModel {
     }
 
     render() {
-      const { value } = this.state;
       return (
           <section id="articles" className="w-70 mx-10-auto text-center">
-              <AppBar position="static" className="mt-50" color="inherit">
-                  <Tabs 
-                      value={value} 
-                      indicatorColor="primary"
-                      variant="fullWidth">
-                      <Tab label="Статии" />
-                  </Tabs>
-              </AppBar>
-            {value === 0 && 
-              <TabContainer>
+            <header><h2 className="font-40 mt-50 p-0">Статии</h2></header>
             <Animated animationIn="fadeIn">
               <section className="equal-shared-grid mx-auto w-70">
                 <Select onChange={this.onChange.bind(this)}/>
@@ -258,15 +230,21 @@ export class ArticlesPage extends RequestModel {
               <section className="four-fragments-grid">
                   {Array.from(this.state.articles).map((art) => {
                     let editedTitle = art.Title.replace(/[-?.!,]+/g, "").replace(/\s+/g, "-");
+                    let titleParts = editedTitle.split("-");
 
-                    let toRoute = "/article/" + art._id + "&" + editedTitle;
-                    return (<Link key={art._id} to={toRoute}><Card date={art.Date} views={art.views} cover={art.Cover} title={art.Title.substr(0, 20) + "..."}/></Link>);
+                    if(titleParts.length > 3){
+                      editedTitle = titleParts.slice(0, 3).join("-");
+                    }
+                    
+                    editedTitle = "Лайфстайл-" + editedTitle;
+
+                    let toRoute = "/article/" + editedTitle + "-" + art._id;
+                    return (<Link key={art._id} to={toRoute}><Card date={art.Date} id={art._id} views={art.views} cover={art.Cover} title={art.Title.substr(0, 20) + "..."}/></Link>);
                   })} 
               </section>
               <FontAwesomeIcon onClick={this.onClick} id="moreBtn" className="moreBtn text-nav mx-auto mt-25 display-block"  icon="chevron-circle-down" size="3x" />
               <FontAwesomeIcon onClick={this.onClick} id="noMoreBtn" className="text-dark-red mx-auto display-block noMoreBtn mt-25 display-block"  icon="times-circle" size="3x" />
             </Animated>
-          </TabContainer>}
           </section>
     )
   }

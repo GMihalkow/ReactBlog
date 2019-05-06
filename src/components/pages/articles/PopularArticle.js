@@ -7,9 +7,16 @@ export class PopularArticle extends Component {
         super(props);
         
         let editedTitle = this.props.Title.replace(/[-?.!,]+/g, "").replace(/\s+/g, "-");
+        let titleParts = editedTitle.split("-");
+        
+        if(titleParts.length > 3){
+            editedTitle = titleParts.slice(0, 3).join("-");
+        }
+
+        editedTitle = "Лайфстайл-" + editedTitle;
 
         this.state = {
-            articleLink: "/article/" + this.props.Id + "&" + editedTitle
+            articleLink: "/article/" + editedTitle + "-" + this.props.Id
         }
     }
     
@@ -26,7 +33,7 @@ export class PopularArticle extends Component {
         <section className="mx-auto">
             <section className="two-to-four-grid mx-10-auto w-100">
                 <section>
-                    <Link to={this.state.articleLink}><img className="responsive-image" width="80" alt="article1" height="50" src={this.props.Cover} /></Link>
+                    <Link to={this.state.articleLink}><img className="responsive-image" width="80" alt="Лайфстайл" height="50" src={this.props.Cover} /></Link>
                 </section>  
                 <header className="text-start bold p-10">
                     <Link to={this.state.articleLink} className="text-black">{this.trimContent(this.props.Title)}</Link>

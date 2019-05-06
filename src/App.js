@@ -70,8 +70,8 @@ class App extends Component {
           <Banner/>
           <Nav />
           <Footer/> 
-          <RouterComponent url={this.state.url} auth={this.state.auth}/>
           <Loading />
+          <RouterComponent url={this.state.url} auth={this.state.auth}/>
         </div>
       </Router> 
     );
