@@ -42,8 +42,8 @@ class IndexPage extends RequestModel {
 
   render() {
     return (
-      <section id="main" className="three-to-one-grid w-70 mx-auto">
-        <section className="m-20">
+      <div id="main" className="three-to-one-grid w-70 mx-auto">
+        <div className="m-20">
           {this.state.articles.slice(0, 3).map((el, index) => {
             if (index % 2 === 0) {
               return (
@@ -57,29 +57,29 @@ class IndexPage extends RequestModel {
                 </Animated>);
             }
           })}
-        </section>
+        </div>
         <aside className="text-center mt-25 p-10">
-          <section id="fb-wrapper">
+          <div id="fb-wrapper">
           <Animated animationIn="fadeInRight" isVisible={true}>
             <FbPage />
           </Animated>
-          </section>
+          </div>
           <Animated animationIn="fadeInRight" isVisible={true}>
-            <section id="popular-articles" className="mt-50">
+            <div id="popular-articles" className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto">Най-четени</h2>
               {this.state.popularArticles.map((el, index) => {
                 return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
-            </section>
-            <section id="latest-articles" className="mt-50">
+            </div>
+            <div id="latest-articles" className="mt-50">
               <h2 className="bg-nav w-100 text-white mx-auto">Най-нови</h2>
               {this.state.latestArticles.map((el, index) => {
                   return <PopularArticle Id={el._id} key={index} Author={el.Author} Title={el.Title} Cover={el.Cover} Content={el.Content} />
               })}
-            </section>
+            </div>
           </Animated>
         </aside>
-      </section>
+      </div>
     )
   }
 }

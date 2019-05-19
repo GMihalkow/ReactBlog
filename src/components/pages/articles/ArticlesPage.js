@@ -220,12 +220,12 @@ export class ArticlesPage extends RequestModel {
           <section id="articles" className="w-70 mx-10-auto text-center">
             <header><h2 className="font-40 mt-50 p-0">Статии</h2></header>
             <Animated animationIn="fadeIn">
-              <section className="equal-shared-grid mx-auto w-70">
+              <div className="equal-shared-grid mx-auto w-70">
                 <Select onChange={this.onChange.bind(this)}/>
-                <section className="mx-10-auto p-10">
+                <div className="mx-10-auto p-10">
                 <input id="search-box" onKeyUp={this.onSearch} className="responsive-input custom-select font-16" placeholder="Търси по име..."/>
-              </section>
-              </section>
+                </div>
+              </div>
                 <NotFound />
               <section className="four-fragments-grid">
                   {Array.from(this.state.articles).map((art) => {

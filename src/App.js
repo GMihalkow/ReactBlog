@@ -65,7 +65,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router basename="/"> 
+      <Router basename="/bg"> 
         <div className="App">
           <Banner/>
           <Nav />

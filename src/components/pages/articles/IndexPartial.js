@@ -37,9 +37,9 @@ export class ArticlePartial extends Component {
           <header>
             <h2 className="index-partial-heading bold text-center m-10 p-10"><Link to={articleLink} className="text-black">{this.props.Title}</Link></h2>
           </header>
-          <p className="text-center m-10">Автор: <span className="bold">{this.props.Author}</span></p>
-          <Link to={articleLink} className="text-black"><img className="w-100 article-image" alt="Лайфстайл" src={this.props.Cover} /></Link>
-          <section className="w-70 text-center index-partial-content mx-10-auto" dangerouslySetInnerHTML={{__html:this.trimContent(this.props.Content)}}></section>
+          <p className="text-center m-10">Автор: <span className="bold"><Link className="text-black" to="/about">{this.props.Author}</Link></span></p>
+          <Link to={articleLink} className="text-black"><img className="w-100 article-image" itemProp="image" alt="Лайфстайл" src={this.props.Cover} /></Link>
+          <blockquote className="w-70 text-center index-partial-content mx-10-auto" dangerouslySetInnerHTML={{__html:this.trimContent(this.props.Content)}}></blockquote>
           <hr/>
       </article>
     )
