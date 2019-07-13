@@ -212,9 +212,17 @@ font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 }
 
 .article-image{
-  height: 550px;
+  height: 480px;
+  display: block;
+  width: 720px;
+  margin: 0px auto;
   transition: transform .2s; /* Animation */  
   border-radius: 5px;
+}
+
+.article-image::after{
+  content: '';
+  height: 200px;
 }
 
 .article-image:hover{
@@ -254,6 +262,12 @@ margin: 0px auto;
 
 .index-partial-heading{
   font-size: 35px;
+}
+
+.details-image{
+  height: auto;
+  min-width: 100%;
+  margin: 0px auto;
 }
 
 .blogBtn{
@@ -415,7 +429,10 @@ img{
 }
 
 .card-image{
-  height: 200px;
+  
+  height: auto;
+  min-width: 100%;
+  margin: 0px auto;
 }
 
 .equal-shared-grid{
@@ -492,6 +509,10 @@ img{
 }
 
 @media screen and (max-width: 850px) {
+
+  .article-image{ 
+    height: auto;
+  }
   
   #popular-articles{
     width: 70%;
@@ -552,6 +573,10 @@ img{
 
 @media screen and (max-width: 790px) {
 
+  .article-image{ 
+    height: auto;
+  }
+
   #little-heading{
     display:block;
   }
@@ -564,6 +589,10 @@ img{
 
 @media screen and (max-width: 690px) {
   
+  .article-image{ 
+    height: auto;
+  }
+
   .about-content{
     padding: 10px;
   }
@@ -592,17 +621,14 @@ img{
     padding: 10px;
   }
 
-  .details-image{
-    height: 200px;
-    min-width: 100%;
-  }
   
-  .article-image{
-    height: 300px;
-  }
 }
 
 @media screen and (max-width: 400px) {  
+
+  .article-image{ 
+    height: auto;
+  }
 
   #footer{
     font-size: 16px;
@@ -629,14 +655,6 @@ img{
     font-size: 20px;
   }
 
-  .details-image{
-    height: 250px;
-    min-width: 100%;
-  }
-
-  .article-image{
-    height: 200px;
-  }
  h1{
    transform: scale(0.5);
  }
@@ -656,6 +674,10 @@ img{
 }
 
 #loader{
+  position: absolute;
+  top: 10rem;
+  left: 2rem;
+  z-index: 1000;
   display: none;
 }
 
