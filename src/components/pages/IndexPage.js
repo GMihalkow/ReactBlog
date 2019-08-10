@@ -42,7 +42,7 @@ class IndexPage extends RequestModel {
 
   render() {
     return (
-      <div id="main" className="three-to-one-grid w-70 mx-auto">
+      <div id="main" className="three-to-one-grid w-80 mx-auto">
         <div className="m-20">
           {this.state.articles.slice(0, 3).map((el, index) => {
             if (index % 2 === 0) {
