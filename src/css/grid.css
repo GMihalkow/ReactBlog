@@ -1,0 +1,27 @@
+
+.three-to-one-grid{
+    display:grid;
+    grid-template-columns: 4fr 1fr;
+}
+  
+.two-to-four-grid{
+    display:grid;
+    grid-template-columns: 2fr 4fr;
+}
+  
+.one-to-four-grid{
+    display:grid;
+    grid-template-columns: 1fr 4fr;
+}
+  
+.equal-shared-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px 5%;
+    width: 70%;
+}
+
+.four-fragments-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}  

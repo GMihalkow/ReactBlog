@@ -1,0 +1,15 @@
+#mainHeading{
+    cursor: pointer;
+}
+
+.banner{
+    color: #fff;
+    background-image: url('./../images/banner.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 10rem;
+}
+  
+.bg-banner{
+    background-color: #0099cc;
+}

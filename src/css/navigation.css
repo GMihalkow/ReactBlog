@@ -1,0 +1,29 @@
+.bg-nav{
+    background-color: #1f3d7a;
+}
+
+.text-nav{
+    color: #1f3d7a;
+} 
+
+.nav-wrapper {
+    box-shadow: 0px 3px 3px 0px #ccc;
+}
+  
+.nav{
+    text-decoration: none;
+    color: #000;
+    width: 50%;
+    list-style: none;
+    font-size: 22px;
+}
+  
+.nav > li {
+    padding: 10px 0;
+    margin: 0 10px;
+}
+
+  .nav > li > a { 
+    color: #000;
+}
+  

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif&display=swap');
+
+html{
+    height: 100%;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: 'PT Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'PT Serif', serif;
+}
+
+a{
+    text-decoration: none;
+    outline: none;
+}
+    
+.font-14{
+    font-size: 14px;
+}
+    
+.font-16{
+    font-size: 16px;
+}
+   
+.font-18{
+    font-size: 18px;
+}
+ 
+.font-20{
+    font-size: 20px;
+}
+
+.font-25{
+    font-size: 25px;
+}
+ 
+.font-35{
+    font-size: 35px;
+}
+  
+.font-40{
+    font-size: 40px;
+}
+  
+.font-60{
+    font-size: 60px; 
+}
+
+.text-dark-red{
+    color: darkred;
+}
+
+.text-black{
+    color: black;
+}
+
+.text-white{
+    color: white;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-start{
+    text-align: start;
+}
+
+.text-end{
+    text-align: end;
+}
+  

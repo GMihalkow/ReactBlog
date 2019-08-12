@@ -1,0 +1,27 @@
+
+.custom-select{
+    height: 40px;
+    text-indent: 10px;
+    border: #efefef solid 1px;
+    box-shadow: #ccc 0px 3px 5px 0px; 
+    border-bottom: #003399 1.5px solid;
+}
+  
+.selected{
+    border: #efefef solid 1px;
+    box-shadow: #ccc 0px 3px 5px 0px; 
+    background-color: #003399;
+    color: white;
+    border-bottom: white 1.5px solid;
+}
+
+#fontSizeSelect{
+    border-radius: 5px;
+    outline: none;
+}
+  
+#fontSizeSelect::-ms-expand { 
+    background: black;
+    display: none; /* hide the default arrow in ie10 and ie11 */
+}
+  

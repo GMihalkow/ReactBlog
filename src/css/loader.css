@@ -1,0 +1,17 @@
+#loader{
+    position: absolute;
+    top: 10rem;
+    left: 2rem;
+    z-index: 1000;
+    display: none;
+}
+  
+.loader {
+    border: 16px solid #3498db; /* Light grey */
+    border-top: 16px solid #f3f3f3; /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0px auto;
+    animation: spin 2s linear infinite;
+}

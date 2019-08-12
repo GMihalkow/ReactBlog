@@ -1,0 +1,7 @@
+#footer{
+    position:absolute; 
+    bottom:0; 
+    margin-top: 50px;
+    width:100vw; 
+    /* height:50px;  */
+}

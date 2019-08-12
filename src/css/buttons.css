@@ -1,0 +1,25 @@
+button {
+    cursor: pointer;
+}
+
+.blogBtn{
+    outline: none;
+    padding: 20px;
+    border-radius: 10px;
+    border:none;
+    font-size: 20px;
+    font-weight: bold;
+} 
+
+.noMoreBtn{
+    display:none;
+}
+  
+.moreBtn{
+    /* color: #0099cc; */
+}
+  
+.moreBtn:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

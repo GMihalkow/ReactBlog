@@ -1,0 +1,49 @@
+/* UI Animations */
+
+.zoom-element{
+    transition: transform .2s;
+}
+
+.zoom-element:hover{
+    transform: scale(1.03);
+}
+
+
+.raise-main-heading{
+    transition: font-size .2s; /* Animation */  
+}
+
+.raise-main-heading:hover{ 
+    font-size: 65px;
+}
+
+.raise-article-heading-btn{
+    transition: font-size .2s; /* Animation */  
+}
+
+.raise-article-heading-btn:hover{ 
+    font-size: 50px;
+}
+
+.raise-nav-btn{
+    transition: font-size .2s; /* Animation */  
+}
+
+.raise-nav-btn:hover { 
+    font-size: 30px;
+}
+  
+/* nav button animation */
+.navBtn{
+    transition: transform .2s; /* Animation */
+}
+  
+.navBtn:hover{
+    /* font-size:40px; */
+    transform: scale(1.5);
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,69 @@
+.article-image{
+    height: 480px;
+    display: block;
+    width: 720px;
+    margin: 0px auto;
+    transition: transform .2s; /* Animation */  
+    border-radius: 5px;
+}
+  
+.article-image::after{
+    content: '';
+    height: 200px;
+}
+  
+.article-image:hover{
+    transform: scale(1.02);
+    filter: contrast(50%);
+    filter: opacity(70%);
+    cursor: pointer;
+}
+  
+.articleText{
+    border: #0099cc solid 1px;
+    height: 300px;
+    outline: none;
+    font-size: 20px;
+}
+
+.index-partial-heading{
+    font-size: 35px;
+}
+  
+.details-image{
+    height: auto;
+    min-width: 100%;
+    margin: 0px auto;
+}
+  
+.articles-select{
+    padding:20px;
+    color:white;
+} 
+
+/* article details page */
+.fb-btn-wrapper{
+    width:0px;
+}
+
+.details-title{
+    font-size: 35px;
+    margin:20px;
+    padding: 10px;
+}
+
+/* for all articles page */
+
+#little-heading{
+    display:none;
+}
+  
+#not-found{
+    display:none;
+}
+
+.card-image{
+    height: auto;
+    min-width: 100%;
+    margin: 0px auto;
+}
