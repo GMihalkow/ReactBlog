@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from './DropdownNavBar';
 import { Animated } from "react-animated-css";
+import './css/navigation.css';
 
 export class Navbar extends Component {
     render(){

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Animated } from "react-animated-css";
+import './css/article.css';
 
 export class AboutPage extends Component {
   render() {

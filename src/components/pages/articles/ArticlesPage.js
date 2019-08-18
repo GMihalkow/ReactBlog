@@ -11,6 +11,7 @@ import Tab from '../../../../node_modules/@material-ui/core/Tab';
 import Typography from '../../../../node_modules/@material-ui/core/Typography';
 import RequestModel from '../../RequestModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../css/article.css';
 
 export class ArticlesPage extends RequestModel {
    _isMounted = false;

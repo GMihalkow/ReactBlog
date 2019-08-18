@@ -7,6 +7,7 @@ import { Animated } from 'react-animated-css';
 import PopularArticle from './PopularArticle';
 import RequestModel from '../../RequestModel';
 import { Link } from 'react-router-dom';
+import '../css/article.css';
 
 
 import FbPage from '../../partials/FbRefference';

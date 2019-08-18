@@ -4,6 +4,7 @@ import PopularArticle from './articles/PopularArticle';
 import { Animated } from 'react-animated-css';
 import FbPage from '../partials/FbRefference';
 import RequestModel from '../RequestModel';
+import './css/article.css';
 
 class IndexPage extends RequestModel {
   _isMounted = false;
