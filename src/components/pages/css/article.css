@@ -6,7 +6,45 @@
     transition: transform .2s; /* Animation */  
     border-radius: 5px;
 }
-  
+ 
+.articles-header {
+    background-color: #eee;
+    height: 7rem;
+    margin-bottom: 3rem;
+}
+
+.articles-header > .articles-search-box-elements {
+    margin-left: auto;
+}
+
+.articles-header > span {
+    display: block;
+    margin-top: 2.5rem;
+    font-size: 24px;
+    text-align: start;
+    padding: 0 8rem;
+}
+
+.articles-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+.articles-categories {
+    width: 30%;
+}
+
+.articles-part {
+    margin-top: 2rem;
+    width: 70%;
+}
+
+.articles-part > .three-fragments-grid {
+    padding: 0 3rem;
+}
+
 .article-image::after{
     content: '';
     height: 200px;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import './css/dropdown.css';
 
 export class DropdownNavBar extends Component {
   componentDidMount(){
