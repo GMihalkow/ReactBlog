@@ -1,1 +1,1 @@
-This is a simple web application built with React.
+This is a simple blog application built with React.
