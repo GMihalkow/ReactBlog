@@ -105,3 +105,8 @@
     min-width: 100%;
     margin: 0px auto;
 }
+
+.details-content > img,
+.details-content > p {
+    margin: 1rem 0;
+}
